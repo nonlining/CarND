@@ -23,7 +23,12 @@ The goals / steps of this project are the following:
 
 ### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+There are 5 steps in my pipeline
+ 1. Transfer RGB image to Grayscale image.
+ 2. Apply Gaussian Blur on Grayscale image.
+ 3. Apply Canny transform.
+ 4. Mask the region that outside the current line.
+ 5. Use Hugh Line and draw_line() function to draw lines.
 
 In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
 
