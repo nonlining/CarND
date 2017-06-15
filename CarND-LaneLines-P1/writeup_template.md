@@ -1,9 +1,5 @@
 # **Finding Lane Lines on the Road** 
 
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
 ---
 
 **Finding Lane Lines on the Road**
@@ -15,7 +11,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+[image1]: ./test_images_output/solidWhiteCurve.jpg "Result"
 
 ---
 
@@ -30,7 +26,10 @@ There are 5 steps in my pipeline
  4. Mask the region that outside the current line.
  5. Use Hugh Line and draw_line() function to draw lines.
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+I modify draw_line() in following way:
+ 1. average all right lane slopes to get a mean slope.
+ 2. average all right lane x and y points that I can have a point can be used to calculate intercept of a line.
+ 3. Use this line to draw a line from the bottom of imgae to far point.
 
 If you'd like to include images to show how the pipeline works, here is how to include an image: 
 
@@ -39,14 +38,7 @@ If you'd like to include images to show how the pipeline works, here is how to i
 
 ### 2. Identify potential shortcomings with your current pipeline
 
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
-
+I tested my code on Optional Challenge video, the result is not good. 2 lines intersect at far point, and the slopes of 2 lines are not correct.
 
 ### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
