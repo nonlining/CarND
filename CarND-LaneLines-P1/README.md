@@ -42,5 +42,5 @@ I tested my code on Optional Challenge video, the result is not good. 2 lines in
 
 ### 3. Suggest possible improvements to your pipeline
 
-I will modify my draw_line() function using the same far point to draw right lane and left lane. 
+For the test image and 2 test 2 video, my results are ok for those test case. But it could have error on some of more curvy lane, or a narrow. I will modify my draw_line() function using the same far point to draw right lane and left lane. Finally, I will implement the algorithm from suggest to improve my code.
 
