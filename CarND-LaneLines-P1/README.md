@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 
 ### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-There are 6 steps in my pipeline
+There are 7 steps in my pipeline
  1. Transfer RGB image to Grayscale image.
  2. Apply Gaussian Blur on Grayscale image.
  3. Apply Canny edge-detection on Blurred image.
