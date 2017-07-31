@@ -22,6 +22,11 @@ The goals / steps of this project are the following:
 [image7]: ./test_data/stop.jpg "Traffic Sign 3"
 [image8]: ./test_data/traffic-sign-1443060__180.jpg "Traffic Sign 4"
 [image9]: ./test_data/traffic-signs-achtung-unfallschwerpunkt-german-for-warning-accident-CRDR2P.jpg "Traffic Sign 5"
+[image10]: ./bar1.png "Traffic Sign 1"
+[image11]: ./bar2.png "Traffic Sign 2"
+[image12]: ./bar3.png "Traffic Sign 3"
+[image13]: ./bar4.png "Traffic Sign 4"
+[image14]: ./bar5.png "Traffic Sign 5"
 
 ---
 ### README
@@ -107,7 +112,7 @@ Finally, I tried to adjust my normalization function. This modified it to (x - 0
 Here is my final model results were:
 * training set accuracy of 0.998
 * validation set accuracy of 0.960
-* test set accuracy of 0.943
+* test set accuracy of 0.950
 
 ### Test a Model on New Images
 
@@ -132,19 +137,14 @@ Here are the results of the prediction:
 
 
 The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. 
-This compares the whole test set accuracy is 94.3 %
+This compares the whole test set accuracy is 95 %
 
-#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. 
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+![alt text][image10] ![alt text][image11] ![alt text][image12] 
+![alt text][image13] ![alt text][image14]
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| .60         			| Bummy Road    									| 
-| .20     				| Speed Limit 30km/h 										|
-| .05					| Stop											|
-| .04	      			| Road Work					 				|
-| .01				    | General Caution      							|
+Obviously, these 5 images all easy to prediction. So the highest probability of these images all near to 1.0.
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
