@@ -17,10 +17,11 @@ The goals / steps of this project are the following:
 [image2]: ./SignImageRandomPick.png "SignImages43Classes"
 [image3]: ./beforeNormalization.png "beforeNorm"
 [image4]: ./afterNormalization.png "AfterNorm"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image5]: ./test_data/bumpy-road.jpg "Traffic Sign 1"
+[image6]: ./test_data/speed_limit.jpg "Traffic Sign 2"
+[image7]: ./test_data/stop.jpg "Traffic Sign 3"
+[image8]: ./test_data/traffic-sign-1443060__180.jpg "Traffic Sign 4"
+[image9]: ./test_data/traffic-signs-achtung-unfallschwerpunkt-german-for-warning-accident-CRDR2P.jpg "Traffic Sign 5"
 
 ---
 ### README
@@ -77,52 +78,47 @@ My final model consisted of the following layers:
 | Convolution 5x5     	| 1x1 stride, VALID padding, outputs 28x28x30 	|
 | RELU					|												|
 | Max pooling	2*2       	| 2x2 stride,  outputs 16x16x30 				|
-| Convolution 3x3	    | 1x1 stride, VALID padding, outputs 10x10x60  |
+| Convolution 5x5	    | 1x1 stride, VALID padding, outputs 10x10x60  |
 | RELU					|												|
 | Max pooling	2*2       	| 2x2 stride,  outputs 5x5x60 				|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
- 
+| Convolution 3x3	    | 1x1 stride, VALID padding, outputs 3x3x120  |
+| Fully connected		| 1080 Inputs        									|
+| Fully connected		| 120 Inputs        									|
+| Dropout layers 		| 50& dropouts       									|
+| Softmax				| 43 classes        									|
 
 
-####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Training Model.
 
-To train the model, I used an ....
+The HyperParameters that I choiced as following.
+rate = 0.001
+epochs = 100
+batch_size = 128
+keep_probability = 0.5
 
-####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+I choice AdamOptimizer for my optimizer.
 
-My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+#### 4. Tuning Model.
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+At first, I used 2 layers convolutions in my model, but the validation set of accuracy always limit to around 0.75, and I tried to add one more convolutions in model. This more complexity model brings 0.80 accuracy for validation set. It was far from 0.94. So, I took a lot of time on tuning other hyperparameters, but these did not help.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+Finally, I tried to adjust my normalization function. This modified it to (x - 0/255.0). This modification boost the accuracy to 0.90. I also add depths of my convolution layers. This could be too over complexity and could be lead overfitting, so I add dropout layer for this.
 
-###Test a Model on New Images
+Here is my final model results were:
+* training set accuracy of 0.998
+* validation set accuracy of 0.960
+* test set accuracy of 0.943
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+### Test a Model on New Images
+
+#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image5] ![alt text][image6] ![alt text][image7] 
+![alt text][image8] ![alt text][image9]
 
-The first image might be difficult to classify because ...
-
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
 Here are the results of the prediction:
 
