@@ -14,6 +14,6 @@ This project is here [project code](https://github.com/nonlining/CarND/tree/mast
 ## Project 2 - Traffic Sign Recognition
 This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Traffic-Sign-Classifier-Project)
 
-![alt text][image1]
+![alt text][image2]
 
 ## Project 3 - 
