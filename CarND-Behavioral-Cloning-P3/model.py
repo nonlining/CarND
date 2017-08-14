@@ -117,7 +117,7 @@ def generator(samples, batch_size=32, train_flag = True):
                     images.append(right_image)
                     angles.append(center_angle - correction)
 
-                    images, angles = data_augmentation(images, angles)
+            images, angles = data_augmentation(images, angles)
 
             X_train = np.array(images)
             y_train = np.array(angles)
@@ -128,7 +128,7 @@ def generator(samples, batch_size=32, train_flag = True):
 def main():
 
     file_path = "."
-    num_epoch = 5
+    num_epoch = 10
 
     csv_lines = []
 
