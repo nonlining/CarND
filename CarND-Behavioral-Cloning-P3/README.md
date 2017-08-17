@@ -86,11 +86,11 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 | Convolution 3x3     	| 1x1 stride, outputs 63*318*32 	|
 | RELU					|												|
 | Max pooling	2*2       	| 2x2 stride,  outputs 31*159*32 				|
-| Dropout layers 		| 30& dropouts       									|
+| Dropout layers 		| 30% dropouts       									|
 | Convolution 3x3	    | 1x1 stride, outputs 29*157x64  |
 | RELU					|												|
 | Max pooling	2*2       	| 2x2 stride,  outputs 14*78*64 				|
-| Dropout layers 		| 30& dropouts       									|
+| Dropout layers 		| 30% dropouts       									|
 | Convolution 3x3	    | 1x1 stride, outputs 12*76*128  |
 | RELU					|												|
 | Max pooling	2*2       	| 2x2 stride,  outputs 6*38*256 				|
@@ -102,10 +102,6 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 | Fully connected		| 64 Inputs        									|
 | Fully connected		| 1 Inputs        									|
 
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
 ![alt text][image1]
 
