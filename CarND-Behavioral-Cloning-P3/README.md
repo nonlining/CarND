@@ -14,13 +14,28 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
+[image1]: ./Data_visualization.png "Model Visualization"
+[image2]: ./Histogram1.png "Histogram1"
+[image3]: ./Histogram2.png "Histogram2"
+[image4]: ./Histogram3.png "Histogram3"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
+
+### Data Visualization
+
+First, I must investigate the data for track 1. Data Exploration, Data visualization and Data cleansing are very important for machine learning data preprocessing.
+
+Here is steering angles for track 1.
+
+![alt text][image1]
+
+And Histogram for track 1..
+
+![alt text][image2]
+
+For the above graph. I can know 0 angles take over 70% data. It could make our training overfitting. So I decide to remove some of them.
+
 
 ### Model Architecture and Training Strategy
 
