@@ -22,7 +22,22 @@ The goals / steps of this project are the following:
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
-### Data Visualization
+###  Data collecting and Training Strategy
+
+#### 1. Solution Design Approach
+
+
+
+#### 2. Creation of the Training Set & Training Process
+
+I used VGG net as my training model, and the driving skill is also important for this project. If you can drive the car in the middle of road as possible as you can. You can get the better result. But you also have to collect some of data from recovering your car, it also important. This is why collecting road driving data is so important for autonomous car.
+
+#### 3. Appropriate training data
+
+My traning is try to keep car in middle of the road, and run as many as possible.
+
+
+### Data Visualization and Preprocessing
 
 First, I must investigate the data for track 1. Data Exploration, Data visualization and Data cleansing are very important for machine learning data preprocessing.
 
@@ -42,30 +57,10 @@ Also , the above image is after augment data with flip images.
 
 ![alt text][image4]
 
-### Model Architecture and Training Strategy
+
+### Model Architecture
 
 #### 1. An appropriate model architecture has been employed
-
-
-#### 2. Attempts to reduce overfitting in the model
-
-Beacase there are many 0 angles data, I add dropout to 30% to avoid overfitting. I also run a another run for vaildation, so my vaildation data is a whole track data.
-
-#### 3. Model parameter tuning
-
-
-
-
-
-#### 4. Appropriate training data
-
-My traning is try to keep car in middle of the road, and run as many as possible.
-
-### Model Architecture and Training Strategy
-
-#### 1. Solution Design Approach
-
-#### 2. Final Model Architecture
 
 
 | Layer         		|     Description	        					| 
@@ -92,8 +87,11 @@ My traning is try to keep car in middle of the road, and run as many as possible
 | Fully connected		| 1 Inputs        									|
 
 
+#### 2. Attempts to reduce overfitting in the model
+
+Beacase there are many 0 angles data, I add dropout to 30% to avoid overfitting. I also run a another run for vaildation, so my vaildation data is a whole track data.
+
+#### 3. Model parameter tuning
 
 
-#### 3. Creation of the Training Set & Training Process
 
-I used VGG net as my training model, and the driving skill is also important for this project. If you can drive the car in the middle of road as possible as you can. You can get the better result. But you also have to collect some of data from recovering your car, it also important. This is why collecting road driving data is so important for autonomous car.
