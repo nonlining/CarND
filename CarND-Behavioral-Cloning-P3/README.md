@@ -93,5 +93,5 @@ Beacase there are many 0 angles data, I add dropout to 30% to avoid overfitting.
 
 #### 3. Model parameter tuning
 
-[![video]()](https://youtu.be/D-e1tCMtSYc)
+[![video](https://github.com/nonlining/CarND/blob/master/CarND-Behavioral-Cloning-P3/2017_08_15_15_21_04_419.jpg)](https://youtu.be/D-e1tCMtSYc)
 
