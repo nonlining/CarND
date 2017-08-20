@@ -83,7 +83,7 @@ Also , the above image is after augment data with flip images.
 | Max pooling	2*2       	| 2x2 stride,  outputs 2*18*256 				|
 | Fully connected		| 128 Inputs        									|
 | Fully connected		| 64 Inputs        									|
-| Fully connected		| 64 Inputs        									|
+| Fully connected		| 32 Inputs        									|
 | Fully connected		| 1 Inputs        									|
 
 
@@ -93,5 +93,8 @@ Beacase there are many 0 angles data, I add dropout to 30% to avoid overfitting.
 
 #### 3. Model parameter tuning
 
+How to determine the deep of model and how much dropout I should use is the first step. I use 3*3 kernel size for very Convolution layers and 2*2 size for max pooling. At the first, I only use 10% for dropout layers, and the result is not so good. So I changed this to 30% dropout.
+
+#### 4. Result for lap 1
 [![video](https://github.com/nonlining/CarND/blob/master/CarND-Behavioral-Cloning-P3/2017_08_15_15_21_04_419.jpg)](https://youtu.be/D-e1tCMtSYc)
 
