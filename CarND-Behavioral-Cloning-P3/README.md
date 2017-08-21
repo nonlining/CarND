@@ -109,5 +109,5 @@ How to determine the deep of model and how much dropout I should use is the firs
 #### 4. Result for lap 1
 [![video](https://github.com/nonlining/CarND/blob/master/CarND-Behavioral-Cloning-P3/2017_08_15_15_21_04_419.jpg)](https://youtu.be/D-e1tCMtSYc)
 
-[![video](https://github.com/nonlining/CarND/blob/master/CarND-Behavioral-Cloning-P3/2017_08_15_15_21_04_419.jpg)](https://youtu.be/a0xhi33O70U)
+[![video](https://github.com/nonlining/CarND/blob/master/CarND-Behavioral-Cloning-P3/examples/video.png)](https://youtu.be/a0xhi33O70U)
 
