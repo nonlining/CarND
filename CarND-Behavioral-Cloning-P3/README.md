@@ -21,10 +21,11 @@ The goals / steps of this project are the following:
 [image5]: ./examples/center.jpg "center image"
 [image6]: ./examples/left.jpg "left image"
 [image7]: ./examples/right.jpg "right image"
+[image9]: ./examples/modified_center.jpg "right image"
 
 ###  Data collecting and Training Strategy
 
-#### 1. Creation of the Training Set & Training Process
+#### 1. Creation of the Training Set
 
 I used VGG net as my training model, and the driving skill is also important for this project. If you can drive the car in the middle of road as possible as you can. You can get the better result. But you also have to collect some of data from recovering your car, it also important. This is why collecting road driving data is so important for autonomous car.
 
@@ -38,6 +39,12 @@ My traning is try to keep car in middle of the road, and run as many as possible
 
 ![alt text][image7]
 
+I also flip image for arugment data, this is my flip image as below.
+
+
+Finally, I cropped image in my training processing, the only useful image segment is road section. I cropped this image for training data, I could reduced the amount of computational in training, and improve the accuracy.
+
+![alt text][image9]
 
 ### Data Visualization and Preprocessing
 
