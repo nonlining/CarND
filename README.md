@@ -16,4 +16,7 @@ This project is here [project code](https://github.com/nonlining/CarND/tree/mast
 
 ![alt text][image2]
 
-## Project 3 - 
+## Project 3 - Behavioral Cloning
+This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Behavioral-Cloning-P3)
+
+[![video](https://github.com/nonlining/CarND/blob/master/CarND-Behavioral-Cloning-P3/examples/video.png)](https://youtu.be/a0xhi33O70U)
