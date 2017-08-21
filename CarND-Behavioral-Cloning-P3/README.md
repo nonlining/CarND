@@ -21,7 +21,8 @@ The goals / steps of this project are the following:
 [image5]: ./examples/center.jpg "center image"
 [image6]: ./examples/left.jpg "left image"
 [image7]: ./examples/right.jpg "right image"
-[image9]: ./examples/modified_center.jpg "right image"
+[image8]: ./examples/center_flip.jpg "center_flip image"
+[image9]: ./examples/modified_center.jpg "modified image"
 
 ###  Data collecting and Training Strategy
 
@@ -41,6 +42,7 @@ My traning is try to keep car in middle of the road, and run as many as possible
 
 I also flip image for arugment data, this is my flip image as below.
 
+![alt text][image8]
 
 Finally, I cropped image in my training processing, the only useful image segment is road section. I cropped this image for training data, I could reduced the amount of computational in training, and improve the accuracy.
 
