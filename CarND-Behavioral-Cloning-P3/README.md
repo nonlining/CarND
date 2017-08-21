@@ -18,23 +18,25 @@ The goals / steps of this project are the following:
 [image2]: ./Histogram1.png "Histogram1"
 [image3]: ./Histogram2.png "Histogram2"
 [image4]: ./Histogram3.png "Histogram3"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image5]: ./examples/center.jpg "center image"
+[image6]: ./examples/left.jpg "left image"
+[image7]: ./examples/right.jpg "right image"
 
 ###  Data collecting and Training Strategy
 
-#### 1. Solution Design Approach
-
-
-
-#### 2. Creation of the Training Set & Training Process
+#### 1. Creation of the Training Set & Training Process
 
 I used VGG net as my training model, and the driving skill is also important for this project. If you can drive the car in the middle of road as possible as you can. You can get the better result. But you also have to collect some of data from recovering your car, it also important. This is why collecting road driving data is so important for autonomous car.
 
-#### 3. Appropriate training data
+#### 2. Appropriate training data
 
-My traning is try to keep car in middle of the road, and run as many as possible.
+My traning is try to keep car in middle of the road, and run as many as possible, and this simulation will capture 3 images from training lap, cneter image, left image and right image. The following are examples of 3 three images.
+
+![alt text][image5]
+
+![alt text][image6]
+
+![alt text][image7]
 
 
 ### Data Visualization and Preprocessing
