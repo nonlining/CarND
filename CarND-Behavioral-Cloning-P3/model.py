@@ -25,8 +25,13 @@ from os import listdir
 from os.path import isfile, join , isdir
 
 
-def cnn_model():
+# the model architecture
 
+def cnn_model():
+    """
+    :return: cnn model
+
+    """
     model = Sequential()
     model.add(Lambda(lambda x: (x/255) - 0.5, input_shape=(160,320,3)))
     model.add(Cropping2D(cropping=((70,25),(0,0))))
@@ -50,11 +55,15 @@ def cnn_model():
     return model
 
 
-
-
-
-
 def data_augmentation(images, angles, eps = 1e-16):
+    """
+    flip every image
+    :param images: origin images
+    :param angles: origin angles
+    :param eps: epsilon number for considering as zero
+    :return : tuple of 2 list, augmented images and  augmented angles
+
+    """
     augmented_images = []
     augmented_angles = []
 
@@ -76,6 +85,17 @@ def data_augmentation(images, angles, eps = 1e-16):
 
 
 def pre_processing(data, file_path, keep = 0.4, eps = 1e-16, visual_data = False):
+    """
+    pre-processing of text read from csv file
+    :param data: origin csv lines
+    :param file_path: origin image file path
+    :param keep: the ratio to keep zero angles
+    :param eps: epsilon number for considering as zero
+    :visual_data: the flag to show plot
+
+    :return : 2d list of images data path , but already remove some of zero angles
+
+    """
     data = np.array(data)
     angles = data[:,3].astype(float)
     zero_index = abs(angles) < eps
@@ -117,6 +137,15 @@ def pre_processing(data, file_path, keep = 0.4, eps = 1e-16, visual_data = False
     return new_data
 
 def generator(samples, batch_size=32, train_flag = True):
+    """
+    to random generate batch size of image data to netwrok
+    :param samples: image data
+    :param batch_size: batch size
+    :param train_flag: The flag for training
+    :return: randomly generate image data and result
+
+
+    """
     num_samples = len(samples)
     correction = 0.2
 
@@ -163,6 +192,7 @@ def main():
 
     csv_lines = []
 
+    # read training data
     csvfiles = [f for f in listdir(file_path+ "\\Data\\") if isfile(join(file_path + "\\Data\\",f))]
     for c in csvfiles:
         print(c)
@@ -173,6 +203,8 @@ def main():
 
     csv_test_line = []
 
+
+    # read validation data
     with open(file_path + "\\Data_test\\driving_log.csv") as f:
         content = csv.reader(f)
         for line in content:
@@ -182,14 +214,16 @@ def main():
 
     valid_data = pre_processing(csv_test_line, file_path, 1.0)
 
+    # generator
     train_generator = generator(train_data, batch_size=32)
     validation_generator = generator(valid_data, batch_size=32, train_flag=False)
 
+    #build model
     model = cnn_model()
-
+    # start to training
     model.compile(loss='mse', optimizer='adam')
     model.fit_generator(train_generator, samples_per_epoch= len(train_data)*6 , validation_data=validation_generator, nb_val_samples=len(valid_data), nb_epoch= num_epoch)
-
+    # save the model
     model.save('model.h5')
 
     print("finish training")
