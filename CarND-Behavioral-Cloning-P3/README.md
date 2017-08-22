@@ -97,6 +97,7 @@ Also , the above image is after augment data with flip images.
 | Fully connected		| 32 Inputs        									|
 | Fully connected		| 1 Inputs        									|
 
+The first model I used was LeNet, but this model for this problems was not a good one. So I try to add complexity of this model, try to add more layers, since the inputs of data is 65*320*3. How many layers should I used ? I try to use 4 layers, since the previous I used 2 layers to have very good result. This time I used 4 layers to add complexity of model. I also refer VGG Network for my architecture. So my network architecture is very similar to VGG network.
 
 #### 2. Attempts to reduce overfitting in the model
 
