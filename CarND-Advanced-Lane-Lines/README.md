@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./chess1.png "image1"
 [image2]: ./undistorted_1.png "image2"
-[image3]: ./undistorted_1.png.png "image3"
+[image3]: ./undistorted_2.png.png "image3"
 [image4]: ./examples/warped_straight_lines.jpg "Warp Example"
 [image5]: ./examples/color_fit_lines.jpg "Fit Visual"
 [image6]: ./examples/example_output.jpg "Output"
