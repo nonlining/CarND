@@ -84,7 +84,7 @@ I applied sharpen image first, then crop the image region of road. Sharpen image
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
 The code of perspective transform is on my project4.ipynb ** 
-Apply a perspective transform to rectify binary image ("birds-eye view") ** block. The code contain the following source (src) and destination (dst) points. These 2 points will be used in getPerspectiveTransform() function.
+Apply a perspective transform to rectify binary image ("birds-eye view") ** cell. The code contain the following source (src) and destination (dst) points. These 2 points will be used in getPerspectiveTransform() function.
 
 ```python
 
@@ -109,17 +109,17 @@ This is the math for fitting lane lines with a 2nd order polynomial:
 
 ![alt text][image7]
 
-I used function ** ** to get second order polynomial of left and right lane. This function will take a histogram along all the columns with sliding window of the image. In every window, histogram I am adding up the pixel values along each column in the image. In my thresholded binary image, pixels are either 0 or 1, so the two most prominent peaks in this histogram will be good indicators of the x-position of the base of the lane lines. I can get a midpoint of line in every windows. Then I can use those midpoint with Numpy polyfit() to get second order polynomial.
+I used function **sliding_windows_fit()** to get second order polynomial of left and right lane. This function will take a histogram along all the columns with sliding window of the image. In every window, histogram I am adding up the pixel values along each column in the image. In my thresholded binary image, pixels are either 0 or 1, so the two most prominent peaks in this histogram will be good indicators of the x-position of the base of the lane lines. I can get a midpoint of line in every windows. Then I can use those midpoint with Numpy polyfit() to get second order polynomial.
 
 ![alt text][image8]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+I did this in lines ** "Determine the curvature of the lane and vehicle position with respect to center" ** cell in my code in `project4.ipynb`
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-This implemntations are on my project4.ipynb **Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position** block.
+This implemntations are on my project4.ipynb **Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position** cell.
 
 ![alt text][image10]
 
