@@ -49,8 +49,9 @@ I apply the distortion correction to example images:
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I try several ways and did many experiments to get the better binary image, include sharpen image, get channel from HLS and LAB. But I did not used gradients technique on my images. This is because gradient technique did not help much to get clear binary images.
 
+My color transforms function is named, apply_color_gradient_v2(). This function get channel L from HLS color space and channel B for LAB color space. This combination were came from a lot experiments.
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
