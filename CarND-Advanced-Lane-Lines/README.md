@@ -19,6 +19,7 @@ The goals / steps of this project are the following:
 [image4]: ./apply_g_v2.png "image4"
 [image5]: ./binary_example.png "image5"
 [image6]: ./p_transform.png "image6"
+[image7]: ./examples/color_fit_lines.jpg "image7"
 [video1]: ./project4_adv_lane_video.mp4 "Video"
 
 ---
@@ -98,13 +99,13 @@ dst = np.float32([(450,0),
 ```
 This is the result.
 
-![alt text][image3]
+![alt text][image6]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 This is the math for fitting lane lines with a 2nd order polynomial:
 
-![alt text][image5]
+![alt text][image7]
 
 
 
