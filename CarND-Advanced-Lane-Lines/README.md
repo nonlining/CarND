@@ -20,6 +20,7 @@ The goals / steps of this project are the following:
 [image5]: ./binary_example.png "image5"
 [image6]: ./p_transform.png "image6"
 [image7]: ./examples/color_fit_lines.jpg "image7"
+[image10]: ./draw_lane_info.png "image10"
 [video1]: ./project4_adv_lane_video.mp4 "Video"
 
 ---
@@ -116,9 +117,9 @@ I did this in lines # through # in my code in `my_other_file.py`
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+This implemntations are on my project4.ipynb block ** Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position **
 
-![alt text][image6]
+![alt text][image10]
 
 ---
 
