@@ -51,7 +51,6 @@ I apply the distortion correction to example images:
 
 I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
 
-![alt text][image3]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
@@ -113,4 +112,9 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+There are 2 parts of this project I took most of time to tune. One is Finding a good color transforms, gradients and other methods to create a thresholded binary image. And the other is finding a method to verify invalid lane information (radius of curvature ,and the position of lane) to abandon.
+
+
+
+
+
