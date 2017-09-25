@@ -20,6 +20,7 @@ The goals / steps of this project are the following:
 [image5]: ./binary_example.png "image5"
 [image6]: ./p_transform.png "image6"
 [image7]: ./examples/color_fit_lines.jpg "image7"
+[image8]: ./fit_poly.png "image8"
 [image10]: ./draw_lane_info.png "image10"
 [video1]: ./project4_adv_lane_video.mp4 "Video"
 
@@ -108,8 +109,9 @@ This is the math for fitting lane lines with a 2nd order polynomial:
 
 ![alt text][image7]
 
+I used function ** ** to get second order polynomial of left and right lane. This function will take a histogram along all the columns with sliding window of the image. In every window, histogram I am adding up the pixel values along each column in the image. In my thresholded binary image, pixels are either 0 or 1, so the two most prominent peaks in this histogram will be good indicators of the x-position of the base of the lane lines. I can get a midpoint of line in every windows. Then I can use those midpoint with Numpy polyfit() to get second order polynomial.
 
-
+![alt text][image8]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
