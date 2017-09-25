@@ -117,7 +117,7 @@ I did this in lines # through # in my code in `my_other_file.py`
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-This implemntations are on my project4.ipynb block ** Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position **
+This implemntations are on my project4.ipynb **Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position** block.
 
 ![alt text][image10]
 
