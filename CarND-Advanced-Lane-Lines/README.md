@@ -51,7 +51,7 @@ I apply the distortion correction to example images:
 
 I try several ways and did many experiments to get the better binary image, include sharpen image, get channel from HLS and LAB. But I did not used gradients technique on my images. This is because gradient technique did not help much to get clear binary images.
 
-My color transforms function is named, apply_color_gradient_v2(). This function get channel L from HLS color space and channel B for LAB color space. This combination were came from a lot experiments. The following is my result.
+My color transforms function is named, **apply_color_gradient_v2( )**. This function get channel L from HLS color space and channel B for LAB color space. This combination were came from a lot experiments. The following is my result.
 
 ![alt text][image4]
 ![alt text][image5]
