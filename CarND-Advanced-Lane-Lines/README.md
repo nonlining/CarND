@@ -125,12 +125,6 @@ right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**
 ```
 For the position of car, I assume the camera was located perfectly on center of image. Then I can use 2nd order polynomial funtion that calculated from prevous codes to get left line and right line positions on image bottom. Using these 2 positions, I can get the midpoint of my car in a car lane. To calculate offset from midpoint of car lane to image center, I can get the position of car with respect to center.
 
-```python
-
-
-
-```
-
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
 This implemntations are on my project4.ipynb **Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position** cell.
@@ -153,7 +147,7 @@ Here's a [link to my video result](./project_video.mp4)
 
 There are 2 parts of this project I took most of time to tune. One is Finding a good color transforms, gradients and other methods to create a thresholded binary image. And the other is finding a method to verify invalid lane information (radius of curvature ,and the position of lane) to abandon.
 
-I have a function **sliding_windows_fit()** to calculate lane curvature for image. But it is not necessary in video to calculate curvature for every frame, if the curvature of this frame is almost fit with previous frame. So I have **processing_fit_prev_fit()** to use the data from previous frame. This also give me a new question. When to use previous data , and when to get a new one. So I use Mean squared error to determine it. If MSE of lane bigger than 1000., this curvature of lane will be throw away and calculate a new one for this frame. The following is my mse code.
+I have a function **sliding_windows_fit()** to calculate lane curvature for image. But it is not necessary in video to calculate curvature for every frame, if the curvature of this frame is almost fit with previous frame. So I have **processing_fit_prev_fit()** to use the data from previous frame. This also give me a new question. When to use previous data , and when to get a new one. So I use Mean squared error to determine it. If MSE of lane bigger than 1000.0, this curvature of lane will be throw away and calculate a new one for this frame. The following is my mse code.
 
 ```python
 
@@ -162,6 +156,14 @@ def mse(x , a):
     return np.mean(diff**2)
     
 ```
+For smoothing line curvature data, I also used a list "current_fit" to store at most N previous curvature data. How to determine N value for list. I assume curvature in 5 meters long would not change dramatically, but how to calculate 5 meters in video?
+I also assume the spped of this car is 100km/h, and frame rate of video is 30f/s. So a car with 100km/hour speed is around 27.78 m/second.
+From the previous information that I assume. I used the fucntion like this.
+
+```python
+keeping_data_size = int(30*5/(speed*1000/3600))
+```
+So keeping_data_size with above numbers is about 5. That is keep about 5 frame data to smooth curvature.
 
 
 
