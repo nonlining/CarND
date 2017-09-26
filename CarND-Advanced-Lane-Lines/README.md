@@ -123,7 +123,13 @@ This is my code for calculating radius of curvature. The algorithm was provided 
 left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
 right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
 ```
-For the position of car, I assume the camera was located perfectly on center of image.
+For the position of car, I assume the camera was located perfectly on center of image. Then I can use 2nd order polynomial funtion that calculated from prevous codes to get left line and right line positions on image bottom. Using these 2 positions, I can get the midpoint of my car in a car lane. To calculate offset from midpoint of car lane to image center, I can get the position of car with respect to center.
+
+```python
+
+
+
+```
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
