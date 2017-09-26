@@ -3,6 +3,7 @@
 
 [image1]: ./CarND-LaneLines-P1/test_images_output/solidWhiteCurve.jpg "Result"
 [image2]: ./CarND-Traffic-Sign-Classifier-Project/SignImageRandomPick.png "Result"
+[image3]: ./CarND-Advanced-Lane-Lines/project4_screenshot.png "Result"
 
 ---
 
@@ -23,6 +24,8 @@ This project is here [project code](https://github.com/nonlining/CarND/tree/mast
 
 ## Project 4 - Advanced Lane Lines
 This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Advanced-Lane-Lines)
+
+![alt text][image3]
 
 ## Project 5 - Vehicle Detection
 This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Vehicle-Detection)
