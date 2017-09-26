@@ -23,6 +23,7 @@ The goals / steps of this project are the following:
 [image8]: ./fit_poly.png "image8"
 [image10]: ./draw_lane_info.png "image10"
 [video1]: ./project4_adv_lane_video.mp4 "Video"
+[video2]: ./project4_challenge_adv_lane_video.mp4 "Video"
 
 ---
 
@@ -165,7 +166,7 @@ keeping_data_size = int(30*5/(speed*1000/3600))
 ```
 So keeping_data_size with above numbers is about 5. That is keep about 5 frame data to smooth curvature.
 
-
+This is a [My challenge video result](./project4_challenge_adv_lane_video.mp4)
 
 
 
