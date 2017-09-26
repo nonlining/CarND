@@ -30,7 +30,7 @@ The goals / steps of this project are the following:
 
 #### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
 
-The code for this step is contained in the first code cell of the IPython notebook located in "project4.ipynb".  
+The code for this step is contained in the first code cell of the IPython notebook located in [Project4.ipynb](https://github.com/nonlining/CarND/blob/master/CarND-Advanced-Lane-Lines/project4.ipynb).  
 
 I used 2 OpenCV functions, findChessboardCorners and calibrateCamera to implement Camera Calibration. First, using findChessboardCorners to find the internal chessboard corners with parameter x_corners = 9 and y_corners = 6. Then, the return value of findChessboardCorners fed into calibrateCamera to calibrate camera.
 
@@ -115,7 +115,15 @@ I used function **sliding_windows_fit()** to get second order polynomial of left
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines ** "Determine the curvature of the lane and vehicle position with respect to center" ** cell in my code in `project4.ipynb`
+I did this in lines **"Determine the curvature of the lane and vehicle position with respect to center"** cell in my code in `project4.ipynb`
+
+This is my code for calculating radius of curvature. The algorithm was provided by https://www.intmath.com/applications-differentiation/8-radius-curvature.php
+
+```python
+left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+```
+For the position of car, I assume the camera was located perfectly on center of image.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
@@ -138,6 +146,18 @@ Here's a [link to my video result](./project_video.mp4)
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 There are 2 parts of this project I took most of time to tune. One is Finding a good color transforms, gradients and other methods to create a thresholded binary image. And the other is finding a method to verify invalid lane information (radius of curvature ,and the position of lane) to abandon.
+
+I have a function **sliding_windows_fit()** to calculate lane curvature for image. But it is not necessary in video to calculate curvature for every frame, if the curvature of this frame is almost fit with previous frame. So I have **processing_fit_prev_fit()** to use the data from previous frame. This also give me a new question. When to use previous data , and when to get a new one. So I use Mean squared error to determine it. If MSE of lane bigger than 1000., this curvature of lane will be throw away and calculate a new one for this frame. The following is my mse code.
+
+```python
+
+def mse(x , a):
+    diff = x - a
+    return np.mean(diff**2)
+    
+```
+
+
 
 
 
