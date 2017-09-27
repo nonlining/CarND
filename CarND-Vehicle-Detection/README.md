@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [image3]: ./undistorted_2.png "image3"
 [image4]: ./apply_g_v2.png "image4"
 [image5]: ./binary_example.png "image5"
-[image6]: ./p_transform.png "image6"
+[image6]: ./bounding_boxes.png "image6"
 [image7]: ./examples/color_fit_lines.jpg "image7"
 [image8]: ./fit_poly.png "image8"
 [image10]: ./draw_lane_info.png "image10"
