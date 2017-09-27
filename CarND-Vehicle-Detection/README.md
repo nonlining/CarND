@@ -11,14 +11,17 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./Data Visualization.png
-[image2]: ./examples/HOG_example.jpg
-[image3]: ./examples/sliding_windows.jpg
-[image4]: ./examples/sliding_window.jpg
-[image5]: ./examples/bboxes_and_heat.png
-[image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
-[video1]: ./project_video.mp4
+[image1]: ./Data_Visualization.png "image1"
+[image2]: ./examples/HOG_example.jpg "image2"
+[image3]: ./undistorted_2.png "image3"
+[image4]: ./apply_g_v2.png "image4"
+[image5]: ./binary_example.png "image5"
+[image6]: ./p_transform.png "image6"
+[image7]: ./examples/color_fit_lines.jpg "image7"
+[image8]: ./fit_poly.png "image8"
+[image10]: ./draw_lane_info.png "image10"
+[video1]: ./project4_adv_lane_video.mp4 "Video"
+[video2]: ./project4_challenge_adv_lane_video.mp4 "Video"
 
 ---
 
