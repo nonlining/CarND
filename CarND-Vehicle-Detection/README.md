@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [image3]: ./extract_feature_noncar.png "image3"
 [image4]: ./test_image_result.png "image4"
 [image5]: ./heat_map_6.png "image5"
-[image6]: ./bounding_boxes.png "image6"
+[image6]: ./label_images.png "image6"
 [image7]: ./bounding_boxes.png "image7"
 [video1]: ./project5_test_video_v2.mp4 "Video"
 [video2]: ./project5_video_v2.mp4 "Video"
