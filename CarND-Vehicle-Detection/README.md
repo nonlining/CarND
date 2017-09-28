@@ -69,13 +69,13 @@ hist_bins = 32    # Number of histogram bins
 
 But, This result on test images and video is very bad. There are many false true detections, and bounding boxes are very unstable.
 
-Then, I keep trying test the second best, the third best parameters. I finally found the parameter that good for this.
+Then, I keep trying test the second best, the third best and etc,... Then, I finally found the parameter that good for this.
 
 ```python
 color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
-orient = 10  # HOG orientations
+orient = 8  # HOG orientations
 pix_per_cell = 8 # HOG pixels per cell
-cell_per_block = 4 # HOG cells per block
+cell_per_block = 2 # HOG cells per block
 hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
 spatial_size = (16, 16) # Spatial binning dimensions
 hist_bins = 32    # Number of histogram bins
@@ -85,7 +85,7 @@ hist_bins = 32    # Number of histogram bins
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-
+For x direction, it starts from 0 to 1280 pixel, and window will overlay 50% with previous one. For y direction, I will change windows size from top (400) to bottom (760). This is because the further car will look smaller, so we need small size of window to fit it. The smaller size of windows also would not cover all the way down to botton(760), The reason is bottom of image means car very close to you, it could not a toy car very close to you on the road.
 
 ![alt text][image3]
 
