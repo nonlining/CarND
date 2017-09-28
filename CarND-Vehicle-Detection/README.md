@@ -13,7 +13,7 @@ The goals / steps of this project are the following:
 
 [image1]: ./Data_Visualization.png "image1"
 [image2]: ./extract_feature_car.png "image2"
-[image3]: ./extract_feature_noncar.png "image3"
+[image3]: ./searching_range.png "image3"
 [image4]: ./test_image_result.png "image4"
 [image5]: ./heat_map_6.png "image5"
 [image6]: ./label_images.png "image6"
@@ -84,6 +84,8 @@ hist_bins = 32    # Number of histogram bins
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
 For x direction, it starts from 0 to 1280 pixel, and window will overlay 50% with previous one. For y direction, I will change windows size from top (400) to bottom (760). This is because the further car will look smaller, so we need small size of window to fit it. The smaller size of windows also would not cover all the way down to botton(760), The reason is bottom of image means car very close to you, it could not a toy car very close to you on the road.
+
+The image below is my sliding windows searching range and scale with different distance.
 
 ![alt text][image3]
 
