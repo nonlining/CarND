@@ -57,6 +57,7 @@ cell_per_blocks = [2,3,4,5,6]
 
 I trained a linear SVM with the parameters that I got from getParam.py. The parameters are as following:
 
+```python
 color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 orient = 8  # HOG orientations
 pix_per_cell = 8 # HOG pixels per cell
@@ -64,6 +65,7 @@ cell_per_block = 2 # HOG cells per block
 hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
 spatial_size = (16, 16) # Spatial binning dimensions
 hist_bins = 32    # Number of histogram bins
+```
 
 ### Sliding Window Search
 
