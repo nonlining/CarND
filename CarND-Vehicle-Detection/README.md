@@ -17,7 +17,7 @@ The goals / steps of this project are the following:
 [image4]: ./test_image_result.png "image4"
 [image5]: ./heat_map_6.png "image5"
 [image6]: ./bounding_boxes.png "image6"
-[image7]: ./examples/color_fit_lines.jpg "image7"
+[image7]: ./bounding_boxes.png "image6"
 [image8]: ./fit_poly.png "image8"
 [image10]: ./draw_lane_info.png "image10"
 [video1]: ./project4_adv_lane_video.mp4 "Video"
