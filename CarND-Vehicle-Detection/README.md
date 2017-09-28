@@ -14,7 +14,7 @@ The goals / steps of this project are the following:
 [image1]: ./Data_Visualization.png "image1"
 [image2]: ./extract_feature_car.png "image2"
 [image3]: ./extract_feature_noncar.png "image3"
-[image4]: ./apply_g_v2.png "image4"
+[image4]: ./test_image_result.png "image4"
 [image5]: ./binary_example.png "image5"
 [image6]: ./bounding_boxes.png "image6"
 [image7]: ./examples/color_fit_lines.jpg "image7"
@@ -55,7 +55,15 @@ cell_per_blocks = [2,3,4,5,6]
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained a linear SVM with the parameters that I got from getParam.py. The parameters are as following:
+
+color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+orient = 8  # HOG orientations
+pix_per_cell = 8 # HOG pixels per cell
+cell_per_block = 2 # HOG cells per block
+hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
+spatial_size = (16, 16) # Spatial binning dimensions
+hist_bins = 32    # Number of histogram bins
 
 ### Sliding Window Search
 
@@ -105,5 +113,8 @@ Here's an example result showing the heatmap from a series of frames of video, t
 There are several challenge in this project. First is how to find out the best parameters combination for question. I used a script to run all parameters and find the best one for this question. It tooks about 12 hours to finish all combinations in my desktop computer. 
 
 The second challenge is choosing a good sliding windows size and offset from far to near distance for every frame.
+So I decide to use 1x size of windows on farthest then plus 0.5x for every 2 steps. So the scales will be from 1 to 3.5 in my code. The reason I choice for different size with different distance is perspective of lane. The size of car near is bigger than far one.
 
-The final challenge is getting stable bounding boxes for cars.
+The final challenge is getting stable or smoothing bounding boxes for cars. I try to use previous 10 frames, and cumulate heat map of 10 frames. 
+
+For this project, the performace is also a big issue. It tooks almost 18 mins to generate a 50 second video. For this reason, it's very hard to use my code in real-world application. To implement the whole pipeline with other faster language(C/C++) will be important for this.
