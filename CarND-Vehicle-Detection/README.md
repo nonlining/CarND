@@ -12,8 +12,8 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./Data_Visualization.png "image1"
-[image2]: ./examples/HOG_example.jpg "image2"
-[image3]: ./undistorted_2.png "image3"
+[image2]: ./extract_feature_car.png "image2"
+[image3]: ./extract_feature_noncar.png "image3"
 [image4]: ./apply_g_v2.png "image4"
 [image5]: ./binary_example.png "image5"
 [image6]: ./bounding_boxes.png "image6"
@@ -35,7 +35,10 @@ The first step of this project is data visualization to know what data look like
 
 ![alt text][image1]
 
+The following images are extracted HOG image from different color spaces and channels.
 
+![alt text][image2]
+![alt text][image3]
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
