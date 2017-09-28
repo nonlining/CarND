@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 [image2]: ./extract_feature_car.png "image2"
 [image3]: ./extract_feature_noncar.png "image3"
 [image4]: ./test_image_result.png "image4"
-[image5]: ./binary_example.png "image5"
+[image5]: ./heat_map_6.png "image5"
 [image6]: ./bounding_boxes.png "image6"
 [image7]: ./examples/color_fit_lines.jpg "image7"
 [image8]: ./fit_poly.png "image8"
