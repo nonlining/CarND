@@ -17,11 +17,9 @@ The goals / steps of this project are the following:
 [image4]: ./test_image_result.png "image4"
 [image5]: ./heat_map_6.png "image5"
 [image6]: ./bounding_boxes.png "image6"
-[image7]: ./bounding_boxes.png "image6"
-[image8]: ./fit_poly.png "image8"
-[image10]: ./draw_lane_info.png "image10"
-[video1]: ./project4_adv_lane_video.mp4 "Video"
-[video2]: ./project4_challenge_adv_lane_video.mp4 "Video"
+[image7]: ./bounding_boxes.png "image7"
+[video1]: ./project5_test_video_v2.mp4 "Video"
+[video2]: ./project5_video_v2.mp4 "Video"
 
 ---
 
@@ -67,7 +65,7 @@ spatial_size = (16, 16) # Spatial binning dimensions
 hist_bins = 32    # Number of histogram bins
 ```
 
-But, This result on test images and video is very bad. There are many false true detections, and bounding boxes are very unstable.
+But, This result on test images and video is very bad. There are many false positive detections, and bounding boxes are very unstable.
 
 Then, I keep trying test the second best, the third best and etc,... Then, I finally found the parameter that good for this.
 
@@ -91,21 +89,22 @@ For x direction, it starts from 0 to 1280 pixel, and window will overlay 50% wit
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-
-
 ![alt text][image4]
+
+I limit the searching range of image. It's not possible that cars appear on 0 to 400 pixel in y direction. I also tried to reduce overlay range of windows without affecting accuracy.
 ---
 
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my test video result](./project_video.mp4)
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my test video result](./project5_test_video_v2.mp4)
+
+Here's a [link to my video result](./project5_video_v2.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
+For the false positives detection, I increase threshold to remove false positive, since it was possible for false positive appear in consecutive frames.
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
@@ -118,7 +117,6 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 ### Here the resulting bounding boxes are drawn onto the last frame in the series:
 ![alt text][image7]
-
 
 
 ---
