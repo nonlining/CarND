@@ -127,7 +127,7 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-There are several challenge in this project. First is how to find out the best parameters combination for question. I used a script to run all parameters and find the best one for this question. It tooks about 12 hours to finish all combinations in my desktop computer. 
+There are several challenge in this project. First is how to find out the best parameters combination for question. I used a script to run all parameters and find the best one for this question. It tooks about 15 hours to finish all combinations in my desktop computer. But this did not work very well, so I still have to try and pick up the best result among combinations that have high accuracy.
 
 The second challenge is choosing a good sliding windows size and offset from far to near distance for every frame.
 So I decide to use 1x size of windows on farthest then plus 0.5x for every 2 steps. So the scales will be from 1 to 3.5 in my code. The reason I choice for different size with different distance is perspective of lane. The size of car near is bigger than far one. Farthermore, I also limit the sliding window range from 400 to 760 in y direction. This is the highly probability range that cars will appear.
