@@ -51,17 +51,31 @@ orients = [5, 6, 7, 8, 9, 10]
 pix_per_cells = [8,9,10,11,12]
 cell_per_blocks = [2,3,4,5,6]
 ````
-
+It tooks 6*6*5*5 = 900 iterations and 15 hours to complete the parameters.
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
 I trained a linear SVM with the parameters that I got from getParam.py. The parameters are as following:
 
 ```python
-color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+color_space = 'HLS' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
 orient = 8  # HOG orientations
 pix_per_cell = 8 # HOG pixels per cell
-cell_per_block = 2 # HOG cells per block
+cell_per_block = 3 # HOG cells per block
+hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
+spatial_size = (16, 16) # Spatial binning dimensions
+hist_bins = 32    # Number of histogram bins
+```
+
+But, This result on test images and video is very bad. There are many false true detections, and bounding boxes are very unstable.
+
+Then, I keep trying test the second best, the third best parameters. I finally found the parameter that good for this.
+
+```python
+color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
+orient = 10  # HOG orientations
+pix_per_cell = 8 # HOG pixels per cell
+cell_per_block = 4 # HOG cells per block
 hog_channel = "ALL" # Can be 0, 1, 2, or "ALL"
 spatial_size = (16, 16) # Spatial binning dimensions
 hist_bins = 32    # Number of histogram bins
@@ -71,13 +85,13 @@ hist_bins = 32    # Number of histogram bins
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I decided to search random window positions at random scales all over the image and came up with this (ok just kidding I didn't actually ;):
+
 
 ![alt text][image3]
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  Here are some example images:
+
 
 ![alt text][image4]
 ---
@@ -85,8 +99,9 @@ Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spat
 ### Video Implementation
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my test video result](./project_video.mp4)
 
+Here's a [link to my video result](./project_video.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
@@ -117,6 +132,6 @@ There are several challenge in this project. First is how to find out the best p
 The second challenge is choosing a good sliding windows size and offset from far to near distance for every frame.
 So I decide to use 1x size of windows on farthest then plus 0.5x for every 2 steps. So the scales will be from 1 to 3.5 in my code. The reason I choice for different size with different distance is perspective of lane. The size of car near is bigger than far one. Farthermore, I also limit the sliding window range from 400 to 760 in y direction. This is the highly probability range that cars will appear.
 
-The final challenge is getting stable or smoothing bounding boxes for cars. I try to use previous 10 frames, and cumulate heat map of 10 frames. 
+The final challenge is getting stable or smoothing bounding boxes for cars. I try to use previous 10 frames, and cumulate heat map of 10 frames, and I also increase threshold to 6. That means it should have at least 6 frame contains car detection, and it will be considered as real true for car detection.
 
 For this project, the performace is also a big issue. It tooks almost 18 mins to generate a 50 second video. For this reason, it's very hard to use my code in real-world application. To implement the whole pipeline with other faster language(C/C++) will be important for this.
