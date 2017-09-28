@@ -35,16 +35,20 @@ The first step of this project is data visualization to know what data look like
 
 ![alt text][image1]
 
-I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like.
 
-Here is an example using the `YCrCb` color space and HOG parameters of `orientations=8`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-
-
-![alt text][image2]
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
-I tried various combinations of parameters and...
+I used a python script to run over all parameters combination to find out the best result(Accuracy). This is brute force way to get the best result. The following is my all parameters for this code. [getParam.py](https://github.com/nonlining/CarND/blob/master/CarND-Vehicle-Detection/getParam.py).  
+
+
+```python
+color_spaces = ['HSV','LUV', 'HLS', 'YUV', 'YCrCb', 'RGB']
+orients = [5, 6, 7, 8, 9, 10]
+pix_per_cells = [8,9,10,11,12]
+cell_per_blocks = [2,3,4,5,6]
+````
+
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
@@ -95,5 +99,8 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+There are several challenge in this project. First is how to find out the best parameters combination for question. I used a script to run all parameters and find the best one for this question. It tooks about 12 hours to finish all combinations in my desktop computer. 
 
+The second challenge is choosing a good sliding windows size and offset from far to near distance for every frame.
+
+The final challenge is getting stable bounding boxes for cars.
