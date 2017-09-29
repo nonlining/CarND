@@ -18,6 +18,7 @@ The goals / steps of this project are the following:
 [image5]: ./heat_map_6.png "image5"
 [image6]: ./label_images.png "image6"
 [image7]: ./bounding_boxes.png "image7"
+[image8]: ./extract_feature_noncar.png "image8"
 [video1]: ./project5_test_video_v2.mp4 "Video"
 [video2]: ./project5_video_v2.mp4 "Video"
 
@@ -36,7 +37,7 @@ The first step of this project is data visualization to know what data look like
 The following images are extracted HOG image from different color spaces and channels.
 
 ![alt text][image2]
-![alt text][image3]
+![alt text][image8]
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
