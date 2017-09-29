@@ -106,7 +106,7 @@ Here's a [link to my video result](./project5_video_v2.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-For the false positives detection, I increase threshold to remove false positive, since it was possible for false positive appear in consecutive frames.
+For the false positives detection, I increase threshold to remove false positive, since it was possible for false positive appear in consecutive frames. I also used the LinearSVC built-in decision_function method, which returns a confidence score based on how far a data point is from the decision boundary. I adjusted the value to reject the possible false positive results.
 
 Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
 
@@ -135,3 +135,5 @@ So I decide to use 1x size of windows on farthest then plus 0.5x for every 2 ste
 The final challenge is getting stable or smoothing bounding boxes for cars. I try to use previous 10 frames, and cumulate heat map of 10 frames, and I also increase threshold to 6. That means it should have at least 6 frame contains car detection, and it will be considered as real true for car detection.
 
 For this project, the performace is also a big issue. It tooks almost 18 mins to generate a 50 second video. For this reason, it's very hard to use my code in real-world application. To implement the whole pipeline with other faster language(C/C++) will be important for this.
+
+I introduced decision_function method by reviewer's suggestion. It works very well to reject false positive result. I will also try to re-implement this project with convent in near future.
