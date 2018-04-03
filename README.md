@@ -33,3 +33,8 @@ This project is here [project code](https://github.com/nonlining/CarND/tree/mast
 This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Vehicle-Detection)
 
 ![alt text][image4]
+
+## Project 6 - Extended Kalman Filter Project
+This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Extended-Kalman-Filter-Project)
+
+![alt text][image4]
