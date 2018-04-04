@@ -51,23 +51,19 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
     double v_x = x_[2];
     double v_y = x_[3];
 
-    if (fabs(p_x) < 0.0001) {
-        p_x = 0.0001;
-    }
 
     double rho = sqrt(p_x * p_x + p_y * p_y);
     
-	if (fabs(rho) < 0.0001) {
-        rho = 0.0001;
-    }
 
-    double phi = atan(p_y / p_x);
+
+    double phi = atan2(p_y , p_x);
     double rho_dot = (p_x * v_x + p_y * v_y) / rho;
 
     VectorXd h(3);
-    h << rho, phi, rho_dot;
+    h << rho, phi, (fabs(rho_dot) < 0.0001) ? 0 : (px*vx + py*vy)/rho;
 
     VectorXd y = z - h;
+    y(1) = atan2(sin(y(1)), cos(y(1)));
     MatrixXd Ht = H_.transpose();
     MatrixXd S = H_ * P_ * Ht + R_;
     MatrixXd Si = S.inverse();
