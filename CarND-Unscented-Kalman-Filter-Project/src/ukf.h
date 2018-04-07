@@ -7,6 +7,8 @@
 #include <string>
 #include <fstream>
 
+#define EPS 0.0001
+
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 
