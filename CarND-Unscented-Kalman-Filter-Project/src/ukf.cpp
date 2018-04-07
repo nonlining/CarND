@@ -70,12 +70,54 @@ UKF::~UKF() {}
  * either radar or laser.
  */
 void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
-  /**
-  TODO:
+  //Complete this function! Make sure you switch between lidar and radar
+  //measurements.
+  
+  if (!is_initialized_) {
+	
+    if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+      
+      //Convert radar from polar to cartesian coordinates and initialize state.
+      double rho = measurement_pack.raw_measurements_[0];
+      double theta = measurement_pack.raw_measurements_[1];
+      double ro_dot = measurement_pack.raw_measurements_[2];
+      x_(0) = rho * cos(theta);
+      x_(1) = rho * sin(theta);
+      x_(2) = sqrt(ro_dot * cos(theta) * ro_dot * cos(theta) + ro_dot * sin(theta) * ro_dot * sin(theta));
+      x_(3) = 0;
+	  x_(4) = 0;
+    }
+    else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+      //Initialize state.
+	  double px = measurement_pack.raw_measurements_[0];
+      double py = measurement_pack.raw_measurements_[1];
+      ekf_.x_ << px, py, 0, 0, 0;
+	  if (fabs(x_(0)) < EPS){
+		  x_(0) = EPS;
+	  }
+	  
+	  if (fabs(x_(1)) < EPS){
+		  x_(1) = EPS;
+	  }
+	  
+    }
 
-  Complete this function! Make sure you switch between lidar and radar
-  measurements.
-  */
+    previous_timestamp_ = measurement_pack.timestamp_;
+    
+    is_initialized_ = true;
+	
+	// covariance matrix initial 
+	P_.fill(0.);
+    P_(0,0) = 1.;
+    P_(1,1) = 1.;
+    P_(2,2) = 1.;
+    P_(3,3) = 1.;
+    P_(4,4) = 1.;
+	
+	
+    return;
+  }
+  
 }
 
 /**
