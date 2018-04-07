@@ -47,13 +47,20 @@ UKF::UKF() {
   std_radrd_ = 0.3;
   //DO NOT MODIFY measurement noise values above these are provided by the sensor manufacturer.
   
-  /**
-  TODO:
-
-  Complete the initialization. See ukf.h for other member properties.
-
-  Hint: one or more values initialized above might be wildly off...
-  */
+  //Complete the initialization. See ukf.h for other member properties.
+  //Hint: one or more values initialized above might be wildly off...
+  n_x_ = x_.size();
+  
+  n_aug_ = n_x_ + 2;
+  
+  n_sig_ = 2 * n_aug_ + 1;
+  
+  Xsig_pred_ = MatrixXd(n_x_, n_sig_);
+  
+  lambda_ = 3 - n_aug_;
+  
+  weights_ = VectorXd(n_sig_);
+  
 }
 
 UKF::~UKF() {}
