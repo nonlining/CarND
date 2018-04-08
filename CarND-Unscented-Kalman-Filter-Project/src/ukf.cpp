@@ -91,22 +91,22 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   
   if (!is_initialized_) {
 	
-    if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
+    if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
       
       //Convert radar from polar to cartesian coordinates and initialize state.
-      double rho = measurement_pack.raw_measurements_[0];
-      double theta = measurement_pack.raw_measurements_[1];
-      double ro_dot = measurement_pack.raw_measurements_[2];
+      double rho = meas_package.raw_measurements_[0];
+      double theta = meas_package.raw_measurements_[1];
+      double ro_dot = meas_package.raw_measurements_[2];
       x_(0) = rho * cos(theta);
       x_(1) = rho * sin(theta);
       x_(2) = sqrt(ro_dot * cos(theta) * ro_dot * cos(theta) + ro_dot * sin(theta) * ro_dot * sin(theta));
       x_(3) = 0;
 	  x_(4) = 0;
     }
-    else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
+    else if (meas_package.sensor_type_ == MeasurementPackage::LASER) {
       //Initialize state.
-	  double px = measurement_pack.raw_measurements_[0];
-      double py = measurement_pack.raw_measurements_[1];
+	  double px = meas_package.raw_measurements_[0];
+      double py = meas_package.raw_measurements_[1];
       x_ << px, py, 0, 0, 0;
 	  if (fabs(x_(0)) < EPS){
 		  x_(0) = EPS;
@@ -118,7 +118,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 	  
     }
 
-    previous_timestamp_ = measurement_pack.timestamp_;
+    previous_timestamp_ = meas_package.timestamp_;
     
     is_initialized_ = true;
 	
