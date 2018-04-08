@@ -258,14 +258,29 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
  * @param {MeasurementPackage} meas_package
  */
 void UKF::UpdateRadar(MeasurementPackage meas_package) {
-  /**
-  TODO:
-
-  Complete this function! Use radar data to update the belief about the object's
-  position. Modify the state vector, x_, and covariance, P_.
-
-  You'll also need to calculate the radar NIS.
-  */
+	
+  //Complete this function! Use radar data to update the belief about the object's
+  //position. Modify the state vector, x_, and covariance, P_.
+  //You'll also need to calculate the radar NIS.
+  int n_z = 3;
+  MatrixXd Zsig = MatrixXd(n_z, 2 * n_aug_ + 1);
+  
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) {
+    
+    double p_x = Xsig_pred_(0,i);
+    double p_y = Xsig_pred_(1,i);
+    double v  = Xsig_pred_(2,i);
+    double yaw = Xsig_pred_(3,i);
+    double v1 = cos(yaw)*v;
+    double v2 = sin(yaw)*v;
+    
+    Zsig(0,i) = sqrt(p_x*p_x + p_y*p_y);
+    Zsig(1,i) = atan2(p_y,p_x);
+    Zsig(2,i) = (p_x*v1 + p_y*v2 ) / Zsig(0,i);
+  }
+  
+  Update(meas_package, Zsig, n_z);
+ 
 }
 
 void UKF::Update(MeasurementPackage meas_package, MatrixXd Zsig, int n_z){
