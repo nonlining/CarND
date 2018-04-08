@@ -155,7 +155,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
  * measurement and this one.
  */
 void UKF::Prediction(double delta_t) {
-  double delta_t2 = delta_t*delta_t;
+  
   VectorXd x_aug = VectorXd(n_aug_);
   
   MatrixXd P_aug = MatrixXd(n_aug_, n_aug_);
@@ -163,22 +163,25 @@ void UKF::Prediction(double delta_t) {
   MatrixXd Xsig_aug = MatrixXd(n_aug_, 2 * n_aug_ + 1);
   
   x_aug.fill(0.0);
+  
   x_aug.head(n_x_) = x_;
+  
   P_aug.fill(0);
   P_aug.topLeftCorner(n_x_,n_x_) = P_;
+  
   P_aug(5,5) = std_a_*std_a_;
   P_aug(6,6) = std_yawdd_*std_yawdd_;
   
-  MatrixXd L = P_aug.llt().matrixL();
+  MatrixXd temp = P_aug.llt().matrixL();
   
   Xsig_aug.col(0) = x_aug;
-  double sqrt_lambda_n_aug = sqrt(lambda_+n_aug_);
-  VectorXd sqrt_lambda_n_aug_L;
+  
+  double sqrt_lambda_naug = sqrt(lambda_+n_aug_);
   
   for(int i = 0; i < n_aug_; i++) {
-	sqrt_lambda_n_aug_L = sqrt_lambda_n_aug * L.col(i);
-    Xsig_aug.col(i+1)        = x_aug + sqrt_lambda_n_aug_L;
-    Xsig_aug.col(i+1+n_aug_) = x_aug - sqrt_lambda_n_aug_L;
+	VectorXd sqrt_lambda_naug_temp = sqrt_lambda_naug * temp.col(i);
+    Xsig_aug.col(i+1)        = x_aug + sqrt_lambda_naug_temp;
+    Xsig_aug.col(i+1+n_aug_) = x_aug - sqrt_lambda_naug_temp;
   }
   
   for (int i = 0; i< 2 * n_aug_ + 1; i++) {
@@ -188,41 +191,42 @@ void UKF::Prediction(double delta_t) {
     double v = Xsig_aug(2,i);
     double yaw = Xsig_aug(3,i);
     double yawd = Xsig_aug(4,i);
-    double nu_a = Xsig_aug(5,i);
-    double nu_yawdd = Xsig_aug(6,i);
-    
-    double sin_yaw = sin(yaw);
-    double cos_yaw = cos(yaw);
-    double arg = yaw + yawd*delta_t;
-    
-    
-    double px_p, py_p;
+    double nua = Xsig_aug(5,i);
+    double nuyawdd = Xsig_aug(6,i);
+	
+    double px_temp; 
+	double py_temp;
     
     if (fabs(yawd) > EPS) {	
-	double v_yawd = v/yawd;
-        px_p = p_x + v_yawd * (sin(arg) - sin_yaw);
-        py_p = p_y + v_yawd * (cos_yaw - cos(arg) );
+	  double v_yawd = v/yawd;
+      px_temp = p_x + v_yawd * (sin(yaw + yawd*delta_t) - sin(yaw));
+      py_temp = p_y + v_yawd * (cos(yaw) - cos(yaw + yawd*delta_t) );
     } else {
-	double v_delta_t = v*delta_t;
-        px_p = p_x + v_delta_t*cos_yaw;
-        py_p = p_y + v_delta_t*sin_yaw;
+	  double v_delta_t = v*delta_t;
+      px_temp = p_x + v_delta_t*cos(yaw);
+      py_temp = p_y + v_delta_t*sin(yaw);
     }
-    double v_p = v;
-    double yaw_p = arg;
-    double yawd_p = yawd;
+    //double v_p = v;
+    double yaw_p = yaw + yawd * delta_t;
+    //double yawd_p = yawd;
+	double delta_t2 = delta_t * delta_t;
 
-    px_p += 0.5*nu_a*delta_t2*cos_yaw;
-    py_p += 0.5*nu_a*delta_t2*sin_yaw;
-    v_p += nu_a*delta_t;
-    yaw_p += 0.5*nu_yawdd*delta_t2;
-    yawd_p += nu_yawdd*delta_t;
+    px_temp += 0.5 * nua * delta_t2 * cos(yaw);
+    py_temp += 0.5 * nua* delta_t2 * sin(yaw);
+    //v_p += nua*delta_t;
+	v += nua*delta_t;
+    yaw_p += 0.5 * nuyawdd*delta_t2;
+    //yawd_p += nuyawdd*delta_t;
+	yawd += nuyawdd*delta_t;
 
     
-    Xsig_pred_(0,i) = px_p;
-    Xsig_pred_(1,i) = py_p;
-    Xsig_pred_(2,i) = v_p;
+    Xsig_pred_(0,i) = px_temp;
+    Xsig_pred_(1,i) = py_temp;
+    //Xsig_pred_(2,i) = v_p;
+	Xsig_pred_(2,i) = v;
     Xsig_pred_(3,i) = yaw_p;
-    Xsig_pred_(4,i) = yawd_p;
+    //Xsig_pred_(4,i) = yawd_p;
+	Xsig_pred_(4,i) = yawd;
   }
   
   
@@ -232,8 +236,9 @@ void UKF::Prediction(double delta_t) {
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {
     
     VectorXd x_diff = Xsig_pred_.col(i) - x_;
-    
-    NormAng(&(x_diff(3)));
+	while( x_diff(3) > M_PI ) x_diff(3) -= 2.*M_PI
+    while( x_diff(3) < -M_PI ) x_diff(3) += 2.*M_PI;
+	
     P_ = P_ + weights_(i) * x_diff * x_diff.transpose() ;
   }
 }
@@ -245,7 +250,6 @@ void UKF::Prediction(double delta_t) {
 void UKF::UpdateLidar(MeasurementPackage meas_package) {
   //Complete this function! Use lidar data to update the belief about the object's
   //position. Modify the state vector, x_, and covariance, P_.
-
   //You'll also need to calculate the lidar NIS.
   
   int n_z = 2;
