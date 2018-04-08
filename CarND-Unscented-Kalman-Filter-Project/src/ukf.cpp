@@ -243,14 +243,14 @@ void UKF::Prediction(double delta_t) {
  * @param {MeasurementPackage} meas_package
  */
 void UKF::UpdateLidar(MeasurementPackage meas_package) {
-  /**
-  TODO:
+  //Complete this function! Use lidar data to update the belief about the object's
+  //position. Modify the state vector, x_, and covariance, P_.
 
-  Complete this function! Use lidar data to update the belief about the object's
-  position. Modify the state vector, x_, and covariance, P_.
-
-  You'll also need to calculate the lidar NIS.
-  */
+  //You'll also need to calculate the lidar NIS.
+  
+  int n_z = 2;
+  MatrixXd Zsig = Xsig_pred_.block(0, 0, n_z, 2 * n_aug_ + 1);
+  Update(meas_package, Zsig, n_z);
 }
 
 /**
