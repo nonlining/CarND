@@ -209,9 +209,6 @@ void UKF::Prediction(double delta_t) {
       py_temp = p_y + v_delta_t*sin(yaw);
     }
 	
-    
-	
-
     px_temp += 0.5 * nua * delta_t2 * cos(yaw);
     py_temp += 0.5 * nua* delta_t2 * sin(yaw);
 	v += nua*delta_t;
@@ -272,12 +269,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
     double p_y = Xsig_pred_(1,i);
     double v  = Xsig_pred_(2,i);
     double yaw = Xsig_pred_(3,i);
-    double v1 = cos(yaw)*v;
-    double v2 = sin(yaw)*v;
     
     Zsig(0,i) = sqrt(p_x*p_x + p_y*p_y);
     Zsig(1,i) = atan2(p_y,p_x);
-    Zsig(2,i) = (p_x*v1 + p_y*v2 ) / Zsig(0,i);
+    Zsig(2,i) = (p_x * cos(yaw) * v + p_y * sin(yaw) * v)/Zsig(0,i);
   }
   
   Update(meas_package, Zsig, n_z);
@@ -317,14 +312,11 @@ void UKF::Update(MeasurementPackage meas_package, MatrixXd Zsig, int n_z){
     VectorXd z_diff = Zsig.col(i) - z_pred;
     if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
 
-      //NormAng(&(z_diff(1)));
 	  while(z_diff(1) > M_PI) z_diff(1) -= 2.*M_PI;
       while(z_diff(1) < -M_PI) z_diff(1) += 2.*M_PI;
     }
 
     VectorXd x_diff = Xsig_pred_.col(i) - x_;
-
-    //NormAng(&(x_diff(3)));
 	
     while(x_diff(3) > M_PI) x_diff(3) -= 2.*M_PI;
     while(x_diff(3) < -M_PI) x_diff(3) += 2.*M_PI;
@@ -339,7 +331,6 @@ void UKF::Update(MeasurementPackage meas_package, MatrixXd Zsig, int n_z){
   VectorXd z_diff = z - z_pred;
   if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
 
-    //NormAng(&(z_diff(1)));
 	while(z_diff(1) > M_PI) z_diff(1) -= 2.*M_PI;
     while(z_diff(1) < -M_PI) z_diff(1) += 2.*M_PI;
 	
