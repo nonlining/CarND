@@ -107,7 +107,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
       //Initialize state.
 	  double px = measurement_pack.raw_measurements_[0];
       double py = measurement_pack.raw_measurements_[1];
-      ekf_.x_ << px, py, 0, 0, 0;
+      x_ << px, py, 0, 0, 0;
 	  if (fabs(x_(0)) < EPS){
 		  x_(0) = EPS;
 	  }
