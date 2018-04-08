@@ -70,6 +70,8 @@ public:
   double lambda_;
 
 
+  MatrixXd R_radar_;
+  MatrixXd R_lidar_;
   /**
    * Constructor
    */
@@ -79,6 +81,10 @@ public:
    * Destructor
    */
   virtual ~UKF();
+  /**
+   * normalize angles to [-pi , pi] 
+  */
+  void NormAng(double *ang);
 
   /**
    * ProcessMeasurement

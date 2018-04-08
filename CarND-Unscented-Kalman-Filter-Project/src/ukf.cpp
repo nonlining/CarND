@@ -25,10 +25,10 @@ UKF::UKF() {
   P_ = MatrixXd(5, 5);
 
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 30;
+  std_a_ = 3;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
-  std_yawdd_ = 30;
+  std_yawdd_ = 1;
   
   //DO NOT MODIFY measurement noise values below these are provided by the sensor manufacturer.
   // Laser measurement noise standard deviation position1 in m
@@ -49,22 +49,38 @@ UKF::UKF() {
   
   //Complete the initialization. See ukf.h for other member properties.
   //Hint: one or more values initialized above might be wildly off...
-  n_x_ = x_.size();
+  n_x_ = 5;
   
   n_aug_ = n_x_ + 2;
   
-  n_sig_ = 2 * n_aug_ + 1;
-  
-  Xsig_pred_ = MatrixXd(n_x_, n_sig_);
+  Xsig_pred_ = MatrixXd(n_x_, 2 * n_aug_ + 1);
   
   lambda_ = 3 - n_aug_;
   
-  weights_ = VectorXd(n_sig_);
   
+  
+  // Initialize weights
+  weights_ = VectorXd(2 * n_aug_ + 1);
+  weights_(0) = lambda_ / (lambda_ + n_aug_);
+    for (int i = 1; i < 2*n_aug_+1; i++) {
+	  weights_(i) = 0.5 / (n_aug_ + lambda_);
+  }
+  
+  R_radar_ = MatrixXd(3, 3);
+  R_radar_ << std_radr_*std_radr_, 0, 0,
+              0, std_radphi_*std_radphi_, 0,
+              0, 0,std_radrd_*std_radrd_;
+  R_lidar_ = MatrixXd(2, 2);
+  R_lidar_ << std_laspx_*std_laspx_,0,
+              0,std_laspy_*std_laspy_;
 }
 
 UKF::~UKF() {}
 
+void UKF::NormAng(double *ang) {
+    while (*ang > M_PI) *ang -= 2. * M_PI;
+    while (*ang < -M_PI) *ang += 2. * M_PI;
+}
 /**
  * @param {MeasurementPackage} meas_package The latest measurement data of
  * either radar or laser.
