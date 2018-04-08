@@ -236,7 +236,7 @@ void UKF::Prediction(double delta_t) {
   for (int i = 0; i < 2 * n_aug_ + 1; i++) {
     
     VectorXd x_diff = Xsig_pred_.col(i) - x_;
-	while( x_diff(3) > M_PI ) x_diff(3) -= 2.*M_PI
+	while( x_diff(3) > M_PI ) x_diff(3) -= 2.*M_PI;
     while( x_diff(3) < -M_PI ) x_diff(3) += 2.*M_PI;
 	
     P_ = P_ + weights_(i) * x_diff * x_diff.transpose() ;
