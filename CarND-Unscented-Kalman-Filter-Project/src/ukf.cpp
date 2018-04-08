@@ -267,3 +267,63 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   You'll also need to calculate the radar NIS.
   */
 }
+
+void UKF::Update(MeasurementPackage meas_package, MatrixXd Zsig, int n_z){
+
+  VectorXd z_pred = VectorXd(n_z);
+  z_pred  = Zsig * weights_;
+  MatrixXd S = MatrixXd(n_z, n_z);
+  S.fill(0.0);
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) { 
+    VectorXd z_diff = Zsig.col(i) - z_pred;
+    NormAng(&(z_diff(1)));
+    S = S + weights_(i) * z_diff * z_diff.transpose();
+  }
+
+  MatrixXd R = MatrixXd(n_z, n_z);
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
+    R = R_radar_;
+  }
+  else if (meas_package.sensor_type_ == MeasurementPackage::LASER){ // Lidar
+    R = R_lidar_;
+  }
+  S = S + R;
+  
+
+  MatrixXd Tc = MatrixXd(n_x_, n_z);
+
+  Tc.fill(0.0);
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) { 
+
+    VectorXd z_diff = Zsig.col(i) - z_pred;
+    if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
+
+      NormAng(&(z_diff(1)));
+    }
+
+    VectorXd x_diff = Xsig_pred_.col(i) - x_;
+
+    NormAng(&(x_diff(3)));
+    Tc = Tc + weights_(i) * x_diff * z_diff.transpose();
+  }
+
+  VectorXd z = meas_package.raw_measurements_;
+
+  MatrixXd K = Tc * S.inverse();
+
+  VectorXd z_diff = z - z_pred;
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
+
+    NormAng(&(z_diff(1)));
+  }
+
+  x_ = x_ + K * z_diff;
+  P_ = P_ - K * S * K.transpose();
+
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR){ // Radar
+	NIS_radar_ = z.transpose() * S.inverse() * z;
+  }
+  else if (meas_package.sensor_type_ == MeasurementPackage::LASER){ // Lidar
+	NIS_laser_ = z.transpose() * S.inverse() * z;
+  }
+}
