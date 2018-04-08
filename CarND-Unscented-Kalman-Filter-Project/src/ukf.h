@@ -86,10 +86,6 @@ public:
    * Destructor
    */
   virtual ~UKF();
-  /**
-   * normalize angles to [-pi , pi] 
-  */
-  void NormAng(double *ang);
 
   /**
    * ProcessMeasurement

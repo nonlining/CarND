@@ -77,10 +77,6 @@ UKF::UKF() {
 
 UKF::~UKF() {}
 
-void UKF::NormAng(double *ang) {
-    while (*ang > M_PI) *ang -= 2. * M_PI;
-    while (*ang < -M_PI) *ang += 2. * M_PI;
-}
 /**
  * @param {MeasurementPackage} meas_package The latest measurement data of
  * either radar or laser.
