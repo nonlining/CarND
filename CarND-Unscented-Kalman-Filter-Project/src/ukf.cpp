@@ -137,9 +137,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   {
     // Radar update
     UpdateRadar( meas_package );
-  } 
-  else 
-  {
+  } else {
     // Laser update
     UpdateLidar( meas_package );
   }
