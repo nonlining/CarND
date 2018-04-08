@@ -134,6 +134,19 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     return;
   }
   
+  double dt = (meas_package.timestamp_ - previous_timestamp_) * 1e-6;
+  previous_timestamp_ = meas_package.timestamp_;
+  Prediction( dt );
+  if( meas_package.sensor_type_ == MeasurementPackage::RADAR ) 
+  {
+    // Radar update
+    UpdateRadar( meas_package );
+  } 
+  else 
+  {
+    // Laser update
+    UpdateLidar( meas_package );
+  }
 }
 
 /**
