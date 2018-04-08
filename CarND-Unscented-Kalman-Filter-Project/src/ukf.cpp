@@ -172,7 +172,7 @@ void UKF::Prediction(double delta_t) {
   MatrixXd L = P_aug.llt().matrixL();
   
   Xsig_aug.col(0) = x_aug;
-  double sqrt_lambda_n_aug = sqrt(lambda_+n_aug_); // Save some computations
+  double sqrt_lambda_n_aug = sqrt(lambda_+n_aug_);
   VectorXd sqrt_lambda_n_aug_L;
   
   for(int i = 0; i < n_aug_; i++) {
@@ -181,9 +181,7 @@ void UKF::Prediction(double delta_t) {
     Xsig_aug.col(i+1+n_aug_) = x_aug - sqrt_lambda_n_aug_L;
   }
   
-  // Predict sigma points
-  for (int i = 0; i< 2 * n_aug_ + 1; i++)
-  {
+  for (int i = 0; i< 2 * n_aug_ + 1; i++) {
     
     double p_x = Xsig_aug(0,i);
     double p_y = Xsig_aug(1,i);
@@ -213,7 +211,6 @@ void UKF::Prediction(double delta_t) {
     double yaw_p = arg;
     double yawd_p = yawd;
 
-    // Add noise
     px_p += 0.5*nu_a*delta_t2*cos_yaw;
     py_p += 0.5*nu_a*delta_t2*sin_yaw;
     v_p += nu_a*delta_t;
@@ -228,14 +225,14 @@ void UKF::Prediction(double delta_t) {
     Xsig_pred_(4,i) = yawd_p;
   }
   
-  // Predicted state mean
-  x_ = Xsig_pred_ * weights_; // vectorised sum
-  // Predicted state covariance matrix
+  
+  x_ = Xsig_pred_ * weights_;
+  
   P_.fill(0.0);
-  for (int i = 0; i < n_sig_; i++) {  //iterate over sigma points
-    // State difference
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) {
+    
     VectorXd x_diff = Xsig_pred_.col(i) - x_;
-    // Angle normalization
+    
     NormAng(&(x_diff(3)));
     P_ = P_ + weights_(i) * x_diff * x_diff.transpose() ;
   }
