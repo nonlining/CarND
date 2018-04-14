@@ -50,9 +50,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	normal_distribution<double> Nd_y(y, std_pos[1]);
 	normal_distribution<double> Nd_theta(theta, std_pos[2]);
 	  
-	p.x = Nd_x(gen);
-	p.y = Nd_y(gen);
-	p.theta = Nd_theta(gen);
+	particles[i].x = Nd_x(gen);
+	particles[i].y = Nd_y(gen);
+	particles[i].theta = Nd_theta(gen);
   }
 
 }
