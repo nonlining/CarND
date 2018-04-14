@@ -38,13 +38,13 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
   for (int i = 0; i < particles.size(); ++i){
     double x, y, theta;
 	if(yaw_rate){
-	  x = p.x + velocity * delta_t * cos(p.theta);
-      y = p.y + velocity * delta_t * sin(p.theta);
-      theta = p.theta;
+	  x = particles[i].x + velocity * delta_t * cos(particles[i].theta);
+      y = particles[i].y + velocity * delta_t * sin(particles[i].theta);
+      theta = particles[i].theta;
 	} else {
-	  x = p.x + velocity/yaw_rate * (sin(p.theta + yaw_rate * delta_t) - sin(p.theta));
-      y = p.y + velocity/yaw_rate * (cos(p.theta) - cos(p.theta + yaw_rate * delta_t));
-      theta = p.theta + yaw_rate * delta_t;
+	  x = particles[i].x + velocity/yaw_rate * (sin(particles[i].theta + yaw_rate * delta_t) - sin(particles[i].theta));
+      y = particles[i].y + velocity/yaw_rate * (cos(particles[i].theta) - cos(particles[i].theta + yaw_rate * delta_t));
+      theta = particles[i].theta + yaw_rate * delta_t;
 	}
 	normal_distribution<double> Nd_x(x, std_pos[0]);
 	normal_distribution<double> Nd_y(y, std_pos[1]);
