@@ -97,28 +97,26 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   and the following is a good resource for the actual equation to implement (look at equation 
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
+	
 	double var_x = pow(std_landmark[0], 2);
 	double var_y = pow(std_landmark[1], 2);
 	double covar_xy = std_landmark[0] * std_landmark[1];
 	double weights_sum = 0;	
 	
 	for (int i=0; i < num_particles; i++) {
-		// predict measurements to all map landmarks
+		
 		Particle& particle = particles[i];
-
-		// initialise unnormalised weight for particle
-		// weight is a product so init to 1.0
 		long double weight = 1;
 		
 		for (int j=0; j < observations.size(); j++) {
-			// transform vehicle's observation to global coordinates
+			
 			LandmarkObs obs = observations[j];
 			
-			// predict landmark x, y. Equations from trigonometry.
+			
 			double predicted_x = obs.x * cos(particle.theta) - obs.y * sin(particle.theta) + particle.x;
 			double predicted_y = obs.x * sin(particle.theta) + obs.y * cos(particle.theta) + particle.y;
 
-			// initialise terms
+			
 			Map::single_landmark_s nearest_landmark;
 			double min_distance = sensor_range;
 			double distance = 0;
@@ -128,11 +126,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 				Map::single_landmark_s landmark = map_landmarks.landmark_list[k];
 
-				// calculate distance between landmark and transformed observations
-				// approximation (Manhattan distance)
 				distance = fabs(predicted_x - landmark.x_f) + fabs(predicted_y - landmark.y_f);
 
-				// update nearest landmark to obs
 				if (distance < min_distance) {
 					min_distance = distance;
 					nearest_landmark = landmark;
@@ -141,8 +136,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 			} // end associate nearest landmark
 
-			// then calculate new weight of each particle using multi-variate Gaussian (& associations)
-			// equation in L14.11 Update Step video
 			double x_diff = predicted_x - nearest_landmark.x_f;
 			double y_diff = predicted_y - nearest_landmark.y_f;
 			double num = exp(-0.5*((x_diff * x_diff)/var_x + (y_diff * y_diff)/var_y));
@@ -152,11 +145,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 		} // end observations loop
 
-		// update particle weight 
+		
 		particle.weight = weight;
-		// update weight in PF array
+		
 		weights[i] = weight;
-		// add weight to weights_sum for normalising weights later
+		
 		weights_sum += weight;
 
 }
