@@ -7,6 +7,7 @@
 [image4]: ./CarND-Vehicle-Detection/car_detection_screenshot.png "Result"
 [image5]: ./CarND-Extended-Kalman-Filter-Project/screenshot/EKF_screenshot1.png "Result"
 [image6]: ./CarND-Unscented-Kalman-Filter-Project/screenshots/screenshot1.png "Result"
+[image7]: ./CarND-Kidnapped-Vehicle-Project/screenshots/screenshot1.png "Result"
 
 
 ---
@@ -45,3 +46,8 @@ This project is here [project code](https://github.com/nonlining/CarND/tree/mast
 This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Unscented-Kalman-Filter-Project)
 
 ![alt text][image6]
+
+## Project 8 - Kidnapped Vehicle Project
+This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Kidnapped-Vehicle-Project)
+
+![alt text][image7]
