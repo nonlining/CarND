@@ -150,7 +150,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		
 		weights[i] = weight;
 		
-		weights_sum += weight;
+		//weights_sum += weight;
 	
 	} // end of particles loop
 }
