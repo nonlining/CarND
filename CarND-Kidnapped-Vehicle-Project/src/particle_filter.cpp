@@ -114,8 +114,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			LandmarkObs obs = observations[j];
 			
 			
-			double predicted_x = obs.x * cos(p.theta) - obs.y * sin(p.theta) + p.x;
-			double predicted_y = obs.x * sin(p.theta) + obs.y * cos(p.theta) + p.y;
+			double pred_x = obs.x * cos(p.theta) - obs.y * sin(p.theta) + p.x;
+			double pred_y = obs.x * sin(p.theta) + obs.y * cos(p.theta) + p.y;
 
 			
 			Map::single_landmark_s nearest_landmark;
@@ -128,7 +128,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 				Map::single_landmark_s landmark = map_landmarks.landmark_list[k];
 
-				distance = fabs(predicted_x - landmark.x_f) + fabs(predicted_y - landmark.y_f);
+				distance = fabs(pred_x - landmark.x_f) + fabs(pred_y - landmark.y_f);
 
 				if (distance < min_distance) {
 					min_distance = distance;
@@ -136,14 +136,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 				}
 
 
-			} // end associate nearest landmark
+			} // end of observations loop
 
-			double x_diff = predicted_x - nearest_landmark.x_f;
-			double y_diff = predicted_y - nearest_landmark.y_f;
-			double num = exp(-0.5*((x_diff * x_diff)/var_x + (y_diff * y_diff)/var_y));
-			double denom = 2*M_PI*covar_xy;
+			double x_diff = pred_x - nearest_landmark.x_f;
+			double y_diff = pred_y - nearest_landmark.y_f;
 			
-			weight *= num/denom;
+			weight *= exp(-0.5*((x_diff * x_diff)/var_x + (y_diff * y_diff)/var_y))/(2*M_PI*covar_xy);
 
 		} // end observations loop
 
@@ -153,8 +151,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		weights[i] = weight;
 		
 		weights_sum += weight;
-
-}
+	
+	} // end of particles loop
 }
 
 void ParticleFilter::resample() {
