@@ -97,49 +97,69 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   and the following is a good resource for the actual equation to implement (look at equation 
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
-    const double sigma_x = std_landmark[0];
-    const double sigma_y = std_landmark[1];
-    const double sigma_xy_2_pi = 2 * M_PI * sigma_x * sigma_y;
-    const double sigma_xx_2 = 2 * sigma_x * sigma_x;
-    const double sigma_yy_2 = 2 * sigma_y * sigma_y;
+	double var_x = pow(std_landmark[0], 2);
+	double var_y = pow(std_landmark[1], 2);
+	double covar_xy = std_landmark[0] * std_landmark[1];
+	double weights_sum = 0;	
+	
+	for (int i=0; i < num_particles; i++) {
+		// predict measurements to all map landmarks
+		Particle& particle = particles[i];
 
-    for(int i=0; i < num_particles; i++){
+		// initialise unnormalised weight for particle
+		// weight is a product so init to 1.0
+		long double weight = 1;
+		
+		for (int j=0; j < observations.size(); j++) {
+			// transform vehicle's observation to global coordinates
+			LandmarkObs obs = observations[j];
+			
+			// predict landmark x, y. Equations from trigonometry.
+			double predicted_x = obs.x * cos(particle.theta) - obs.y * sin(particle.theta) + particle.x;
+			double predicted_y = obs.x * sin(particle.theta) + obs.y * cos(particle.theta) + particle.y;
 
-        Particle p = particles[i];
+			// initialise terms
+			Map::single_landmark_s nearest_landmark;
+			double min_distance = sensor_range;
+			double distance = 0;
 
-        // perform the space transformation from vehicle to map
-        vector<LandmarkObs> trans_observations;
-        for(auto obs: observations){
-            LandmarkObs trans_obs;
-            trans_obs.id = p.id;
-            trans_obs.x = p.x + (obs.x * cos(p.theta) - obs.y * sin(p.theta));
-            trans_obs.y = p.y + (obs.x * sin(p.theta) + obs.y * cos(p.theta));
-            trans_observations.push_back(trans_obs);
-        }
+			// associate sensor measurements to map landmarks 
+			for (int k = 0; k < map_landmarks.landmark_list.size(); k++) {
 
-        vector<LandmarkObs> predictions;
-        for(auto landmark: map_landmarks.landmark_list){
-            double distance = dist(p.x,p.y,landmark.x_f,landmark.y_f);
-            if(distance < sensor_range){
-                LandmarkObs lmark;
-                lmark.x = landmark.x_f;
-                lmark.y = landmark.y_f;
-                lmark.id = landmark.id_i;
-                predictions.push_back(lmark);
-            }
-        }
+				Map::single_landmark_s landmark = map_landmarks.landmark_list[k];
 
-        // associate the nearest landmark to every observation of the particle
-        auto associated_landmarks = dataAssociation(predictions, trans_observations);
+				// calculate distance between landmark and transformed observations
+				// approximation (Manhattan distance)
+				distance = fabs(predicted_x - landmark.x_f) + fabs(predicted_y - landmark.y_f);
 
-        double prob = 1.0;
-        for (int j=0; j < associated_landmarks.size(); j++){
-            double dx = trans_observations.at(j).x - associated_landmarks.at(j).x;
-            double dy = trans_observations.at(j).y - associated_landmarks.at(j).y;
-            prob *= 1.0/(sigma_xy_2_pi)*exp(-dx*dx/(sigma_xx_2))*exp(-dy*dy/(sigma_yy_2));
-        }
-        weights[i] = prob;
-    }
+				// update nearest landmark to obs
+				if (distance < min_distance) {
+					min_distance = distance;
+					nearest_landmark = landmark;
+				}
+
+
+			} // end associate nearest landmark
+
+			// then calculate new weight of each particle using multi-variate Gaussian (& associations)
+			// equation in L14.11 Update Step video
+			double x_diff = predicted_x - nearest_landmark.x_f;
+			double y_diff = predicted_y - nearest_landmark.y_f;
+			double num = exp(-0.5*((x_diff * x_diff)/var_x + (y_diff * y_diff)/var_y));
+			double denom = 2*M_PI*covar_xy;
+			// multiply particle weight by this obs-weight pair stat
+			weight *= num/denom;
+
+		} // end observations loop
+
+		// update particle weight 
+		particle.weight = weight;
+		// update weight in PF array
+		weights[i] = weight;
+		// add weight to weights_sum for normalising weights later
+		weights_sum += weight;
+
+}
 }
 
 void ParticleFilter::resample() {
