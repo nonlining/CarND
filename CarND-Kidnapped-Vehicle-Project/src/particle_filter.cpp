@@ -105,7 +105,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	
 	for (int i=0; i < num_particles; i++) {
 		
-		Particle& particle = particles[i];
+		Particle p = particles[i];
 		
 		double weight = 1;
 		
@@ -114,12 +114,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			LandmarkObs obs = observations[j];
 			
 			
-			double predicted_x = obs.x * cos(particle.theta) - obs.y * sin(particle.theta) + particle.x;
-			double predicted_y = obs.x * sin(particle.theta) + obs.y * cos(particle.theta) + particle.y;
+			double predicted_x = obs.x * cos(p.theta) - obs.y * sin(p.theta) + p.x;
+			double predicted_y = obs.x * sin(p.theta) + obs.y * cos(p.theta) + p.y;
 
 			
-			//Map::single_landmark_s nearest_landmark;
-			single_landmark_s nearest_landmark;
+			Map::single_landmark_s nearest_landmark;
 			
 			double min_distance = sensor_range;
 			double distance = 0;
@@ -143,13 +142,13 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			double y_diff = predicted_y - nearest_landmark.y_f;
 			double num = exp(-0.5*((x_diff * x_diff)/var_x + (y_diff * y_diff)/var_y));
 			double denom = 2*M_PI*covar_xy;
-			// multiply particle weight by this obs-weight pair stat
+			
 			weight *= num/denom;
 
 		} // end observations loop
 
 		
-		particle.weight = weight;
+		p.weight = weight;
 		
 		weights[i] = weight;
 		
