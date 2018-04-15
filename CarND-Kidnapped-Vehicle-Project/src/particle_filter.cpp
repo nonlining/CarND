@@ -106,7 +106,7 @@ void ParticleFilter::resample() {
   discrete_distribution<int> dist_pmf(weights.begin(), weights.end());
   
   for(int i=0; i < num_particles; i++){
-    resample_particles.push_back(particles[dist_pmf(gen)]);
+    new_particles.push_back(particles[dist_pmf(gen)]);
   }
   
   particles = new_particles;
