@@ -101,13 +101,12 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	double var_x = std_landmark[0] * std_landmark[0];
 	double var_y = std_landmark[1] * std_landmark[1];
 	double covar_xy = std_landmark[0] * std_landmark[1];
-	double weights_sum = 0;	
 	
 	for (int i=0; i < num_particles; i++) {
 		
 		Particle p = particles[i];
 		
-		double weight = 1;
+		double weight = 1.;
 		
 		for (int j=0; j < observations.size(); j++) {
 			
@@ -118,28 +117,28 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			double pred_y = obs.x * sin(p.theta) + obs.y * cos(p.theta) + p.y;
 
 			
-			Map::single_landmark_s nearest_landmark;
+			Map::single_landmark_s cloest_point;
 			
-			double min_distance = sensor_range;
-			double distance = 0;
+			double min_dist = sensor_range;
+			double dist = 0;
 
 			
 			for (int k = 0; k < map_landmarks.landmark_list.size(); k++) {
 
 				Map::single_landmark_s landmark = map_landmarks.landmark_list[k];
 
-				distance = fabs(pred_x - landmark.x_f) + fabs(pred_y - landmark.y_f);
+				dist = fabs(pred_x - landmark.x_f) + fabs(pred_y - landmark.y_f);
 
-				if (distance < min_distance) {
-					min_distance = distance;
-					nearest_landmark = landmark;
+				if (dist < min_dist) {
+					min_dist = dist;
+					cloest_point = landmark;
 				}
 
 
 			} // end of observations loop
 
-			double x_diff = pred_x - nearest_landmark.x_f;
-			double y_diff = pred_y - nearest_landmark.y_f;
+			double x_diff = pred_x - cloest_point.x_f;
+			double y_diff = pred_y - cloest_point.y_f;
 			
 			weight *= exp(-0.5*((x_diff * x_diff)/var_x + (y_diff * y_diff)/var_y))/(2*M_PI*covar_xy);
 
@@ -149,8 +148,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 		p.weight = weight;
 		
 		weights[i] = weight;
-		
-		//weights_sum += weight;
 	
 	} // end of particles loop
 }
