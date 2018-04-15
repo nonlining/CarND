@@ -92,9 +92,54 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   Keep in mind that this transformation requires both rotation AND translation (but no scaling).
 	//   The following is a good resource for the theory:
 	//   https://www.willamette.edu/~gorr/classes/GeneralGraphics/Transforms/transforms2d.htm
+	
+	
 	//   and the following is a good resource for the actual equation to implement (look at equation 
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
+    const double sigma_x = std_landmark[0];
+    const double sigma_y = std_landmark[1];
+    const double sigma_xy_2_pi = 2 * M_PI * sigma_x * sigma_y;
+    const double sigma_xx_2 = 2 * sigma_x * sigma_x;
+    const double sigma_yy_2 = 2 * sigma_y * sigma_y;
+
+    for(int i=0; i < num_particles; i++){
+
+        Particle p = particles[i];
+
+        // perform the space transformation from vehicle to map
+        vector<LandmarkObs> trans_observations;
+        for(auto obs: observations){
+            LandmarkObs trans_obs;
+            trans_obs.id = p.id;
+            trans_obs.x = p.x + (obs.x * cos(p.theta) - obs.y * sin(p.theta));
+            trans_obs.y = p.y + (obs.x * sin(p.theta) + obs.y * cos(p.theta));
+            trans_observations.push_back(trans_obs);
+        }
+
+        vector<LandmarkObs> predictions;
+        for(auto landmark: map_landmarks.landmark_list){
+            double distance = dist(p.x,p.y,landmark.x_f,landmark.y_f);
+            if(distance < sensor_range){
+                LandmarkObs lmark;
+                lmark.x = landmark.x_f;
+                lmark.y = landmark.y_f;
+                lmark.id = landmark.id_i;
+                predictions.push_back(lmark);
+            }
+        }
+
+        // associate the nearest landmark to every observation of the particle
+        auto associated_landmarks = dataAssociation(predictions, trans_observations);
+
+        double prob = 1.0;
+        for (int j=0; j < associated_landmarks.size(); j++){
+            double dx = trans_observations.at(j).x - associated_landmarks.at(j).x;
+            double dy = trans_observations.at(j).y - associated_landmarks.at(j).y;
+            prob *= 1.0/(sigma_xy_2_pi)*exp(-dx*dx/(sigma_xx_2))*exp(-dy*dy/(sigma_yy_2));
+        }
+        weights[i] = prob;
+    }
 }
 
 void ParticleFilter::resample() {
