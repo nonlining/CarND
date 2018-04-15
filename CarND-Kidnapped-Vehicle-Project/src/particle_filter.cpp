@@ -98,15 +98,16 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
 	
-	double var_x = pow(std_landmark[0], 2);
-	double var_y = pow(std_landmark[1], 2);
+	double var_x = std_landmark[0] * std_landmark[0];
+	double var_y = std_landmark[1] * std_landmark[1];
 	double covar_xy = std_landmark[0] * std_landmark[1];
 	double weights_sum = 0;	
 	
 	for (int i=0; i < num_particles; i++) {
 		
 		Particle& particle = particles[i];
-		long double weight = 1;
+		
+		double weight = 1;
 		
 		for (int j=0; j < observations.size(); j++) {
 			
@@ -117,11 +118,13 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 			double predicted_y = obs.x * sin(particle.theta) + obs.y * cos(particle.theta) + particle.y;
 
 			
-			Map::single_landmark_s nearest_landmark;
+			//Map::single_landmark_s nearest_landmark;
+			single_landmark_s nearest_landmark;
+			
 			double min_distance = sensor_range;
 			double distance = 0;
 
-			// associate sensor measurements to map landmarks 
+			
 			for (int k = 0; k < map_landmarks.landmark_list.size(); k++) {
 
 				Map::single_landmark_s landmark = map_landmarks.landmark_list[k];
