@@ -16,6 +16,9 @@ public:
   double Kp;
   double Ki;
   double Kd;
+  
+  double sum;
+  double prev;
 
   /*
   * Constructor
