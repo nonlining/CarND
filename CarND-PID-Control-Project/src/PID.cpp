@@ -23,8 +23,8 @@ void PID::Init(double Kp, double Ki, double Kd) {
 
 void PID::UpdateError(double cte) {
 
-    total_square_error += cte * cte;
-    double avg_error = sum_squared_error / n;
+    sum_squared_error += cte * cte;
+    //double avg_error = sum_squared_error / n;
 
     n++;
 
