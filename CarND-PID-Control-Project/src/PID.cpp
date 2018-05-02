@@ -14,20 +14,20 @@ void PID::Init(double Kp, double Ki, double Kd) {
   this->Kp = Kp;
   this->Ki = Ki;
   this->Kd = Kd;
-  p_error = 0;
-  i_error = 0;
-  d_error = 0;
-  sum = 0;
-  prev = 0;
+  this->p_error = 0.0;
+  this->i_error = 0.0;
+  this->d_error = 0.0;
+  this->sum = 0;
+  this->prev = 0;
 }
 
 void PID::UpdateError(double cte) {
 	sum += cte;
-	p_error = -(Kp * cte);
-	i_error = -(Ki * sum);
-	d_error = -(Kd*(cte - prev));
+	this->p_error = -(Kp * cte);
+	this->i_error = -(Ki * sum);
+	this->d_error = -(Kd*(cte - prev));
 	
-	prev = cte;
+	this->prev = cte;
 	
 	//std::cout<<"update err "<<sum<<std::endl;
 }
