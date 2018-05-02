@@ -17,22 +17,25 @@ void PID::Init(double Kp, double Ki, double Kd) {
   this->p_error = 0.0;
   this->i_error = 0.0;
   this->d_error = 0.0;
-  this->sum = 0;
-  this->prev = 0;
+  this->sum_squared_error = 0;
+  this->n = 1;
 }
 
 void PID::UpdateError(double cte) {
-	sum += cte;
-	this->p_error = -(Kp * cte);
-	this->i_error = -(Ki * sum);
-	this->d_error = -(Kd*(cte - prev));
-	
-	this->prev = cte;
-	
-	//std::cout<<"update err "<<sum<<std::endl;
+
+    total_square_error += cte * cte;
+    double avg_error = sum_squared_error / n;
+
+    n++;
+
+    this->d_error = cte - this->p_error;
+    this->p_error = cte;
+    this->i_error += cte;
 }
 
 double PID::TotalError() {
-	return (p_error + i_error + d_error);
+    return this->Kp * this->p_error
+           + this->Ki * this->i_error
+           + this->Kd * this->d_error;
 }
 
