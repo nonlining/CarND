@@ -23,11 +23,12 @@ void PID::UpdateError(double cte) {
     sum_squared_error += cte * cte;
     //double avg_error = sum_squared_error / n;
 
-    n++;
+    //n++;
 
-    this->d_error = cte - this->p_error;
+
     this->p_error = cte;
     this->i_error += cte;
+	this->d_error = cte - this->p_error;
 }
 
 double PID::TotalError() {
