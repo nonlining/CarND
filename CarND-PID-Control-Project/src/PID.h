@@ -17,8 +17,7 @@ public:
   double Ki;
   double Kd;
   
-  double sum_squared_error;
-  int n;
+  //double sum_squared_error;
 
   /*
   * Constructor
