@@ -17,6 +17,9 @@ public:
   double Ki;
   double Kd;
   
+  double sum;
+  double prev;
+  
   //double sum_squared_error;
 
   /*

@@ -14,19 +14,22 @@ void PID::Init(double Kp, double Ki, double Kd) {
   this->p_error = 0.0;
   this->i_error = 0.0;
   this->d_error = 0.0;
+  this->sum = 0;
+  this->prev = 0;
 
 }
 
 void PID::UpdateError(double cte) {
+	
+	sum += cte;
 
-    this->p_error = cte;
-    this->i_error += cte;
-	this->d_error = cte - this->p_error;
+    this->p_error = - Kp * cte;
+    this->i_error = - Ki * sum;
+    this->d_error = - Kd * (cte - prev);
+	this->prev = cte;
 }
 
 double PID::TotalError() {
-    return this->Kp * this->p_error
-           + this->Ki * this->i_error
-           + this->Kd * this->d_error;
+    return this->p_error + this->i_error + this->d_error
 }
 
