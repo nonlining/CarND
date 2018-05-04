@@ -30,6 +30,6 @@ void PID::UpdateError(double cte) {
 }
 
 double PID::TotalError() {
-    return this->p_error + this->i_error + this->d_error
+    return this->p_error + this->i_error + this->d_error;
 }
 
