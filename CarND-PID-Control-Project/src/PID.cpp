@@ -21,7 +21,7 @@ void PID::Init(double Kp, double Ki, double Kd) {
 
 void PID::UpdateError(double cte) {
 	
-	sum += cte;
+	this->sum += cte;
 
     this->p_error = - Kp * cte;
     this->i_error = - Ki * sum;
