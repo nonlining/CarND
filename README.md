@@ -8,6 +8,7 @@
 [image5]: ./CarND-Extended-Kalman-Filter-Project/screenshot/EKF_screenshot1.png "Result"
 [image6]: ./CarND-Unscented-Kalman-Filter-Project/screenshots/screenshot1.png "Result"
 [image7]: ./CarND-Kidnapped-Vehicle-Project/screenshots/screenshot1.png "Result"
+[image8]: ./CarND-PID-Control-Project/screenshots/screenshot1.png "Result"
 
 
 ---
@@ -51,3 +52,8 @@ This project is here [project code](https://github.com/nonlining/CarND/tree/mast
 This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-Kidnapped-Vehicle-Project)
 
 ![alt text][image7]
+
+## Project 9 - PID-Control Project
+This project is here [project code](https://github.com/nonlining/CarND/tree/master/CarND-PID-Control-Project)
+
+![alt text][image8]
