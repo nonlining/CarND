@@ -116,7 +116,7 @@ int main() {
 
 
           auto coeffs = polyfit(points_x, points_y, 3);
-          double cte = polyeval(coeffs, 0);
+          double cte = coeffs[0];
           double epsi = -atan(coeffs[1]);
 
           double steer_value = j[1]["steering_angle"];
@@ -135,6 +135,7 @@ int main() {
           
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = throttle_value;
+		  cout<<steer_value<<" "<<throttle_value<<endl;
 
           //Display the MPC predicted trajectory 
           vector<double> mpc_x_vals;
