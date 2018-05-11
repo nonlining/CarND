@@ -163,7 +163,7 @@ int main() {
           //.. add (x,y) points to list here, points are in reference to the vehicle's coordinate system
           // the points in the simulator are connected by a Yellow line
 
-          for (int i = 0; i < 100; i ++){
+          for (int i = 0; i < ptsx.size(); i ++){
             next_x_vals.push_back(points_x[i]);
             next_y_vals.push_back(points_y[i]);
           }
