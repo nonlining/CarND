@@ -141,7 +141,9 @@ int main() {
           
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = throttle_value;
+		  #ifdef DEBUG
 		  cout<<"steer value "<<steer_value<<" throttle value "<<throttle_value<<endl;
+		  #endif
 
           //Display the MPC predicted trajectory 
           vector<double> mpc_x_vals;
@@ -179,7 +181,9 @@ int main() {
 
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
+		  #ifdef DEBUG
           std::cout << msg << std::endl;
+		  #endif
           // Latency
           // The purpose is to mimic real driving conditions where
           // the car does actuate the commands instantly.
