@@ -9,6 +9,8 @@
 #include "MPC.h"
 #include "json.hpp"
 
+#define DEBUG 0
+
 // for convenience
 using json = nlohmann::json;
 
