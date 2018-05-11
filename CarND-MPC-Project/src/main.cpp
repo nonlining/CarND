@@ -79,7 +79,9 @@ int main() {
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
     string sdata = string(data).substr(0, length);
+	#ifdef DEBUG
     cout << sdata << endl;
+	#endif
     if (sdata.size() > 2 && sdata[0] == '4' && sdata[1] == '2') {
       string s = hasData(sdata);
       if (s != "") {
@@ -107,10 +109,14 @@ int main() {
           for (int i = 0; i < ptsx.size(); i++) {
             double dx = ptsx[i] - px;
             double dy = ptsy[i] - py;
+			#ifdef DEBUG
 			cout<<"dx "<<dx<<" dy "<<dy<<endl;
-            points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
+            #enfif
+			points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
             points_y[i] = (dx * sin(-psi) + dy * cos(-psi));
+			#ifdef DEBUG
 			cout<<points_x[i]<<" "<<points_y[i]<<endl;
+			#endif
           }
 
 

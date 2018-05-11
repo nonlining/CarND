@@ -4,6 +4,7 @@
 #include <vector>
 #include "Eigen-3.3/Eigen/Core"
 
+#define DEBUG 0
 using namespace std;
 
 class MPC {
