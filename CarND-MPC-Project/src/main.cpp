@@ -107,10 +107,10 @@ int main() {
           for (int i = 0; i < ptsx.size(); i++) {
             double dx = ptsx[i] - px;
             double dy = ptsy[i] - py;
-			cout<<dx<<" "<<dy<<endl;
-            points_x[dx * cos(-psi) - dy * sin(-psi)];
-            points_y[dx * sin(-psi) + dy * cos(-psi)];
-			cout<<points_x[i]<<" "<<points_y[i]<<endl;
+			//cout<<dx<<" "<<dy<<endl;
+            points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
+            points_y[i] = (dx * sin(-psi) + dy * cos(-psi));
+			//cout<<points_x[i]<<" "<<points_y[i]<<endl;
           }
 
 
