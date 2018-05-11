@@ -107,7 +107,7 @@ int main() {
           for (int i = 0; i < ptsx.size(); i++) {
             double dx = ptsx[i] - px;
             double dy = ptsy[i] - py;
-			cout<<dx<<" "<<dy<<endl;
+			cout<<"dx "<<dx<<" dy "<<dy<<endl;
             points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
             points_y[i] = (dx * sin(-psi) + dy * cos(-psi));
 			cout<<points_x[i]<<" "<<points_y[i]<<endl;
@@ -135,7 +135,7 @@ int main() {
           
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = throttle_value;
-		  cout<<steer_value<<" "<<throttle_value<<endl;
+		  cout<<"steer value "<<steer_value<<" throttle value "<<throttle_value<<endl;
 
           //Display the MPC predicted trajectory 
           vector<double> mpc_x_vals;
