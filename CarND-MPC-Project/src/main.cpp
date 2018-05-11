@@ -111,7 +111,7 @@ int main() {
             double dy = ptsy[i] - py;
 			#ifdef DEBUG
 			cout<<"dx "<<dx<<" dy "<<dy<<endl;
-            #enfif
+            #endif
 			points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
             points_y[i] = (dx * sin(-psi) + dy * cos(-psi));
 			#ifdef DEBUG

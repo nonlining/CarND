@@ -222,6 +222,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
 
   // Cost
   auto cost = solution.obj_value;
+
   std::cout << "Cost " << cost << std::endl;
 
   vector<double> res;
