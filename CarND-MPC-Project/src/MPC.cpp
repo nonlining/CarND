@@ -6,7 +6,7 @@
 using CppAD::AD;
 
 // TODO: Set the timestep length and duration
-size_t N = 10;
+size_t N = 20;
 double dt = 0.1;
 
 // This value assumes the model presented in the classroom is used.
@@ -19,9 +19,7 @@ double dt = 0.1;
 // presented in the classroom matched the previous radius.
 //
 // This is the length from front to CoG that has a similar radius.
-const double Lf = 2.67;
 
-double ref_v = 70;
 size_t x_start = 0;
 size_t y_start = x_start + N;
 size_t psi_start = y_start + N;
@@ -229,8 +227,6 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   res.push_back(solution.x[delta_start]);
   res.push_back(solution.x[a_start]);
   
-  cout<<"delta_start "<<delta_start<<" a_start "<<a_start<<endl;
-
   for (int i = 0; i < N-1; i++) {
     res.push_back(solution.x[x_start + i + 1]);
     res.push_back(solution.x[y_start + i + 1]);
