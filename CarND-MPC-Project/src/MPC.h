@@ -5,7 +5,7 @@
 #include "Eigen-3.3/Eigen/Core"
 
 #define Lf 2.67
-#define ref_v 77.5
+#define ref_v 70
 #define DEBUG 0
 
 using namespace std;
