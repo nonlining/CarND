@@ -9,7 +9,6 @@
 #include "MPC.h"
 #include "json.hpp"
 
-#define DEBUG 0
 
 // for convenience
 using json = nlohmann::json;
@@ -81,7 +80,7 @@ int main() {
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
     string sdata = string(data).substr(0, length);
-	#ifdef DEBUG
+	#if DEBUG
     cout << sdata << endl;
 	#endif
     if (sdata.size() > 2 && sdata[0] == '4' && sdata[1] == '2') {
@@ -111,12 +110,12 @@ int main() {
           for (int i = 0; i < ptsx.size(); i++) {
             double dx = ptsx[i] - px;
             double dy = ptsy[i] - py;
-			#ifdef DEBUG
+			#if DEBUG
 			cout<<"dx "<<dx<<" dy "<<dy<<endl;
             #endif
 			points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
             points_y[i] = (dx * sin(-psi) + dy * cos(-psi));
-			#ifdef DEBUG
+			#if DEBUG
 			cout<<points_x[i]<<" "<<points_y[i]<<endl;
 			#endif
           }
@@ -143,7 +142,7 @@ int main() {
           
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = throttle_value;
-		  #ifdef DEBUG
+		  #if DEBUG
 		  cout<<"steer value "<<steer_value<<" throttle value "<<throttle_value<<endl;
 		  #endif
 
@@ -183,7 +182,7 @@ int main() {
 
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-		  #ifdef DEBUG
+		  #if DEBUG
           std::cout << msg << std::endl;
 		  #endif
           // Latency
