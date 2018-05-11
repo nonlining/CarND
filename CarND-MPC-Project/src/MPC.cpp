@@ -71,35 +71,35 @@ class FG_eval {
     fg[1 + epsi_start] = vars[epsi_start];
 
     // The rest of the constraints
-    for (int t = 1; t < N; t++) {
-      AD<double> x1 = vars[x_start + t];
-      AD<double> x0 = vars[x_start + t - 1];
-      AD<double> y1 = vars[y_start + t];
-      AD<double> y0 = vars[y_start + t - 1];
-      AD<double> psi1 = vars[psi_start + t];
-      AD<double> psi0 = vars[psi_start + t - 1];
-      AD<double> v1 = vars[v_start + t];
-      AD<double> v0 = vars[v_start + t - 1];
-      AD<double> cte1 = vars[cte_start + t];
-      AD<double> cte0 = vars[cte_start + t - 1];
-      AD<double> epsi1 = vars[epsi_start + t];
-      AD<double> epsi0 = vars[epsi_start + t - 1];
-      AD<double> a = vars[a_start + t - 1];
-      AD<double> delta = vars[delta_start + t - 1];
-      if (t > 1) {
-        a = vars[a_start + t - 2];
-        delta = vars[delta_start + t - 2];
+    for (int i = 1; i < N; i++) {
+      AD<double> x1 = vars[x_start + i];
+      AD<double> y1 = vars[y_start + i];
+      AD<double> x0 = vars[x_start + i - 1];
+      AD<double> y0 = vars[y_start + i - 1];
+      AD<double> psi1 = vars[psi_start + i];
+      AD<double> psi0 = vars[psi_start + i - 1];
+      AD<double> v1 = vars[v_start + i];
+      AD<double> v0 = vars[v_start + i - 1];
+      AD<double> cte1 = vars[cte_start + i];
+      AD<double> cte0 = vars[cte_start + i - 1];
+      AD<double> epsi1 = vars[epsi_start + i];
+      AD<double> epsi0 = vars[epsi_start + i - 1];
+      AD<double> a = vars[a_start + i - 1];
+      AD<double> delta = vars[delta_start + i - 1];
+      if (i > 1) {
+        a = vars[a_start + i - 2];
+        delta = vars[delta_start + i - 2];
       }
       AD<double> f0 = coeffs[0] + coeffs[1] * x0 + coeffs[2] * CppAD::pow(x0, 2) + coeffs[3] * CppAD::pow(x0, 3);
       AD<double> psides0 = CppAD::atan(coeffs[1] + 2 * coeffs[2] * x0 + 3 * coeffs[3] * CppAD::pow(x0, 2));
 
 
-      fg[1 + x_start + t] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
-      fg[1 + y_start + t] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
-      fg[1 + psi_start + t] = psi1 - (psi0 - v0/Lf * delta * dt);
-      fg[1 + v_start + t] = v1 - (v0 + a * dt);
-      fg[1 + cte_start + t] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
-      fg[1 + epsi_start + t] = epsi1 - ((psi0 - psides0) - v0/Lf * delta * dt);
+      fg[1 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
+      fg[1 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
+      fg[1 + psi_start + i] = psi1 - (psi0 - v0/Lf * delta * dt);
+      fg[1 + v_start + i] = v1 - (v0 + a * dt);
+      fg[1 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
+      fg[1 + epsi_start + i] = epsi1 - ((psi0 - psides0) - v0/Lf * delta * dt);
     }
   }
 };
