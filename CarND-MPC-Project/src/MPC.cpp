@@ -46,20 +46,20 @@ class FG_eval {
 
 
     for (int i = 0; i < N; i++) {
-      fg[0] += 3000*CppAD::pow(vars[cte_start + i], 2);
-      fg[0] += 3000*CppAD::pow(vars[epsi_start + i], 2);
-      fg[0] += CppAD::pow(vars[v_start + i] - ref_v, 2);
+      fg[0] += 8.4*CppAD::pow(vars[cte_start + i], 2);
+      fg[0] += 0.32*CppAD::pow(vars[epsi_start + i], 2);
+      fg[0] += 0.261*CppAD::pow(vars[v_start + i] - ref_v, 2);
     }
 
     for (int i = 0; i < N - 1; i++) {
-      fg[0] += 5*CppAD::pow(vars[delta_start + i], 2);
-      fg[0] += 5*CppAD::pow(vars[a_start + i], 2);
+      fg[0] += 600000*CppAD::pow(vars[delta_start + i], 2);
+      fg[0] += 17.1*CppAD::pow(vars[a_start + i], 2);
       //fg[0] += 700*CppAD::pow(vars[delta_start + i] * vars[v_start+i], 2);
     }
 
     for (int i = 0; i < N - 2; i++) {
-      fg[0] += 200*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
-      fg[0] += 10*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
+      fg[0] += 0.01*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+      fg[0] += 0.00001*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 
     // initialize constraints
