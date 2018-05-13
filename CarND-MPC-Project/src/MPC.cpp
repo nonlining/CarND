@@ -54,7 +54,7 @@ class FG_eval {
     for (int i = 0; i < N - 1; i++) {
       fg[0] += 5*CppAD::pow(vars[delta_start + i], 2);
       fg[0] += 5*CppAD::pow(vars[a_start + i], 2);
-      fg[0] += 700*CppAD::pow(vars[delta_start + i] * vars[v_start+i], 2);
+      //fg[0] += 700*CppAD::pow(vars[delta_start + i] * vars[v_start+i], 2);
     }
 
     for (int i = 0; i < N - 2; i++) {
@@ -62,7 +62,7 @@ class FG_eval {
       fg[0] += 10*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 
-
+    // initialize constraints
     fg[1 + x_start] = vars[x_start];
     fg[1 + y_start] = vars[y_start];
     fg[1 + psi_start] = vars[psi_start];
@@ -72,6 +72,7 @@ class FG_eval {
 
     // The rest of the constraints
     for (int i = 1; i < N; i++) {
+      // The state at time i
       AD<double> x1 = vars[x_start + i];
       AD<double> y1 = vars[y_start + i];
       AD<double> x0 = vars[x_start + i - 1];
@@ -94,6 +95,7 @@ class FG_eval {
       AD<double> psides0 = CppAD::atan(coeffs[1] + 2 * coeffs[2] * x0 + 3 * coeffs[3] * CppAD::pow(x0, 2));
 
 
+      // the rest of the model constraints
       fg[1 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
       fg[1 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
       fg[1 + psi_start + i] = psi1 - (psi0 - v0/Lf * delta * dt);
@@ -126,6 +128,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // For example: If the state is a 4 element vector, the actuators is a 2
   // element vector and there are 10 timesteps. The number of variables is:
 
+  // 4 * 10 + 2 * 9
   size_t n_vars = N * 6 + (N - 1) * 2;
   // TODO: Set the number of constraints
   size_t n_constraints = N * 6;
@@ -139,6 +142,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
 
   Dvector vars_lowerbound(n_vars);
   Dvector vars_upperbound(n_vars);
+  // TODO: Set lower and upper limits for variables.
 
   vars[x_start] = x;
   vars[y_start] = y;
@@ -148,11 +152,13 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   vars[epsi_start] = epsi;
 
 
+  // set all non-actuiators upper and lower bounds to max and min value
   for (int i = 0; i < delta_start; i++) {
     vars_lowerbound[i] = -1.0e19;
     vars_upperbound[i] = 1.0e19;
   }
 
+// The upper and lower bounds of delta are set to -25 and 25 degrees
   for (int i = delta_start; i < a_start; i++) {
     vars_lowerbound[i] = -0.436332;
     vars_upperbound[i] = 0.436332;
@@ -165,6 +171,8 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   }
 
 
+  // Lower and upper limits for the constraints
+  // Should be 0 besides initial state.
   Dvector constraints_lowerbound(n_constraints);
   Dvector constraints_upperbound(n_constraints);
   for (int i = 0; i < n_constraints; i++) {
@@ -221,6 +229,12 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   auto cost = solution.obj_value;
 
   std::cout << "Cost " << cost << std::endl;
+  
+  // TODO: Return the first actuator values. The variables can be accessed with
+  // `solution.x[i]`.
+  //
+  // {...} is shorthand for creating a vector, so auto x1 = {1.0,2.0}
+  // creates a 2 element double vector.
 
   vector<double> res;
 
