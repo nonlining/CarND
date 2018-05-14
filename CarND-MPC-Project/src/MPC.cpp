@@ -240,22 +240,14 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   auto cost = solution.obj_value;
 
   std::cout << "Cost " << cost << std::endl;
-  
-  // TODO: Return the first actuator values. The variables can be accessed with
-  // `solution.x[i]`.
-  //
-  // {...} is shorthand for creating a vector, so auto x1 = {1.0,2.0}
-  // creates a 2 element double vector.
-
-  vector<double> res;
-
-  res.push_back(solution.x[delta_start]);
-  res.push_back(solution.x[a_start]);
-  
-  for (int i = 0; i < N-1; i++) {
-    res.push_back(solution.x[x_start + i + 1]);
-    res.push_back(solution.x[y_start + i + 1]);
+  this->mpc_x = {};
+  this->mpc_y = {};
+  for (int i = 0; i < N; i++) {
+    this->mpc_x.push_back(solution.x[x_start + i]);
+    this->mpc_y.push_back(solution.x[y_start + i]);
   }
-    
-  return res;
+  vector<double> result;
+  result.push_back(solution.x[delta_start]);
+  result.push_back(solution.x[a_start]);
+  return result;
 }
