@@ -136,8 +136,8 @@ int main() {
 
           px = v * cos(psi) * latency_dt;
           py = v * sin(psi) * latency_dt;
-          psi = v * delta / Lf * latency_dt;
-          v = v + a * latency_dt;
+          psi = v * steer_value / Lf * latency_dt;
+          v = v + throttle_value * latency_dt;
           cte = cte + v * sin(epsi) * latency_dt;
           epsi = epsi  - v * delta / Lf * latency_dt;
 
