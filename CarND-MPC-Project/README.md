@@ -1,6 +1,8 @@
 # CarND-Controls-MPC
 Self-Driving Car Engineer Nanodegree Program
+[//]: # (Image References)
 
+[image1]: ./CarND-MPC-Project/screenshots/mpc_equations.png "Result"
 ---
 
 ## Dependencies
@@ -72,4 +74,12 @@ for instructions and the project rubric.
 
 ## MPC model
 
-This project took a lot of time to tune parameters of the cost function and other parameters for the MPC. The first 
+This project took a lot of time to tune parameters of the cost function and other parameters for the MPC.
+
+The first thing, we need to know is we have 2 two actuators. One is stearing angle (δ) and another is brake represented as a singular actuator (a).
+
+The following equations provide the kinematic model can predict the state on the next time step by taking into account the current state and actuators, (δ) and (a).
+
+![alt text][image1]
+
+
