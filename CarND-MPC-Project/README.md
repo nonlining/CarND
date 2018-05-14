@@ -84,9 +84,7 @@ The following equations provide the kinematic model can predict the state on the
 
 ![alt text][image1]
 
-My choice for N and dt are 20 and 0.1, respectively. I used try-and-error method to get these parameters, since the latancy of this simulation is 0.1s. So 0.1s could be a good starting point for this.
+I used try-and-error method to get these parameters, N and dt. In the beginning My choice for N and dt are 20 and 0.1, respectively, since the latancy of this simulation is 0.1s. So 0.1s could be a good starting point for this. But N = 20 would made the vehicle weave more. So I reduce N to 15 and this number make vehicle smoother. I also use try-and-error to get other parameters.
 
-
-
-
+If we don't add latency, the car will respond too slowly to changes in its position. So reviewer give me a hint to handle latency is to predict the state of the car 100ms in the future before passing it to the solver. Its advantage over choosing a step in the future to handle latency is that it decouples latency management from the choice of N and dt
 
