@@ -55,9 +55,9 @@ class FG_eval {
 
 
     for (int i = 0; i < N; i++) {
-      fg[0] += W_CTE * CppAD::pow(vars[cte_start + i] - REF_CTE, 2);
-      fg[0] += W_EPSI * CppAD::pow(vars[epsi_start + i] - REF_EPSI, 2);
-      fg[0] += W_V * CppAD::pow(vars[v_start + i] - REF_V, 2);
+      fg[0] += W_CTE * CppAD::pow(vars[cte_start + i] - 0, 2);
+      fg[0] += W_EPSI * CppAD::pow(vars[epsi_start + i] - 0, 2);
+      fg[0] += W_V * CppAD::pow(vars[v_start + i] - ref_v, 2);
     }
 
     for (int i = 0; i < N - 1; i++) {
@@ -107,12 +107,12 @@ class FG_eval {
       psides0 = CppAD::atan(psides0);
 
       // the rest of the model constraints
-      fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * DT);
-      fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * DT);
-      fg[2 + psi_start + i] = psi1 - (psi0 + v0 * delta0 / LF * DT);
-      fg[2 + v_start + i] = v1 - (v0 + a0 * DT);
-      fg[2 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * DT));
-      fg[2 + epsi_start + i] = epsi1 - ((psi0 - psides0) + v0 * delta0 / LF * DT);
+      fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
+      fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
+      fg[2 + psi_start + i] = psi1 - (psi0 + v0 * delta0 / Lf * dt);
+      fg[2 + v_start + i] = v1 - (v0 + a0 * dt);
+      fg[2 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
+      fg[2 + epsi_start + i] = epsi1 - ((psi0 - psides0) + v0 * delta0 / LF * dt);
     }
   }
 };
