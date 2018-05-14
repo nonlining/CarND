@@ -96,6 +96,8 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
+		  double steering_angle = j[1]["steering_angle"];
+          double throttle = j[1]["throttle"];
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -115,7 +117,7 @@ int main() {
 			cout<<"dx "<<dx<<" dy "<<dy<<endl;
             #endif
 			points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
-            points_y[i] = (dx * sin(-psi) + dy * cos(-psi));
+            points_y[i] = (dy * sin(-psi) + dy * cos(-psi));
 			#if DEBUG
 			cout<<points_x[i]<<" "<<points_y[i]<<endl;
 			#endif
@@ -126,8 +128,7 @@ int main() {
           auto coeffs = polyfit(points_x, points_y, 3);
           double cte = coeffs[0];
           double epsi = -atan(coeffs[1]);
-          double steer_value = j[1]["steering_angle"];
-          double throttle_value = j[1]["throttle"];
+
           double latency_dt = 0.1;
 		  
 		  //The best way of handling latency is to predict the state of the car 100ms in the future 
@@ -136,10 +137,10 @@ int main() {
 
           px = v * cos(psi) * latency_dt;
           py = v * sin(psi) * latency_dt;
-          psi = v * steer_value / Lf * latency_dt;
-          v = v + throttle_value * latency_dt;
+          psi = v * steering_angle / Lf * latency_dt;
+          v = v + throttle * latency_dt;
           cte = cte + v * sin(epsi) * latency_dt;
-          epsi = epsi  - v * steer_value / Lf * latency_dt;
+          epsi = epsi  - v * steering_angle / Lf * latency_dt;
 
           // Add everything to the state
           VectorXd state(6);
@@ -148,8 +149,8 @@ int main() {
 		  
           vector<double> mpc_res = mpc.Solve(state, coeffs);
           // Divide deg2rad(25) to get range [-1, 1]
-          steer_value = mpc_res[0]/ deg2rad(25);
-          throttle_value = mpc_res[1];
+          double steer_value = mpc_res[0]/ deg2rad(25);
+          double throttle_value = mpc_res[1];
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
