@@ -126,23 +126,24 @@ int main() {
           auto coeffs = polyfit(points_x, points_y, 3);
           double cte = coeffs[0];
           double epsi = -atan(coeffs[1]);
-		  VectorXd state(6);
 
-          double latency_dt = 0.1;
-		  
-		  //The best way of handling latency is to predict the state of the car 100ms in the future 
-		  //before passing it to the solver. Its advantage over choosing a step in the future to handle 
-		  //latency is that it decouples latency management from the choice of N and dt
-		  
-          const double px_act = v * latency_dt;
-          const double py_act = 0;
-          const double psi_act = - v * steering_angle * latency_dt / Lf;
-          const double v_act = v + throttle * latency_dt;
-          const double cte_act = cte + v * sin(epsi) * latency_dt;
-          const double epsi_act = epsi + psi_act; 
+          double steering_angle = j[1]["steering_angle"];
+          double throttle = j[1]["throttle"];
 
-          state << px_act, py_act, psi_act, v_act, cte_act, epsi_act;
-          // Add everything to the state
+          VectorXd state(6);
+          
+		  
+		  
+          //const double px_act = v * latency_dt;
+          //const double py_act = 0;
+          //const double psi_act = - v * steering_angle * latency_dt / Lf;
+          //const double v_act = v + throttle * latency_dt;
+          //const double cte_act = cte + v * sin(epsi) * latency_dt;
+          //const double epsi_act = epsi + psi_act; 
+
+          //state << px_act, py_act, psi_act, v_act, cte_act, epsi_act;
+          state << 0, 0, 0, v, cte, epsi;
+		  // Add everything to the state
 		  
           vector<double> mpc_res = mpc.Solve(state, coeffs);
           // Divide deg2rad(25) to get range [-1, 1]
@@ -152,8 +153,8 @@ int main() {
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
-          msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = throttle_value;
+          msgJson["steering_angle"] = steering_angle;
+          msgJson["throttle"] = throttle;
 		  #if DEBUG
 		  cout<<"steer value "<<steer_value<<" throttle value "<<throttle_value<<endl;
 		  #endif
