@@ -121,7 +121,7 @@ int main() {
 			#endif
           }
 
-
+          double dt = 0.1;
 
           auto coeffs = polyfit(points_x, points_y, 3);
           double cte = coeffs[0];
@@ -133,16 +133,22 @@ int main() {
           VectorXd state(6);
           
 		  
+		  //The best way of handling latency is to predict the state of the car 100ms 
+		  //in the future before passing it to the solver. Its advantage over choosing a 
+		  //step in the future to handle latency is that it decouples latency management 
+		  //from the choice of N and dt
 		  
-          //const double px_act = v * latency_dt;
-          //const double py_act = 0;
-          //const double psi_act = - v * steering_angle * latency_dt / Lf;
-          //const double v_act = v + throttle * latency_dt;
-          //const double cte_act = cte + v * sin(epsi) * latency_dt;
-          //const double epsi_act = epsi + psi_act; 
-
-          //state << px_act, py_act, psi_act, v_act, cte_act, epsi_act;
-          state << 0, 0, 0, v, cte, epsi;
+          double px_pred = v * cos(psi) * dt;
+          double py_pred = v * sin(psi) * dt;
+          double psi_pred = v * steering_angle * dt/Lf;
+          double v_pred = v + a * dt;
+          double cte_pred = cte + v * sin(epsi) * dt;
+          double epsi_pred = epsi  - v * steering_angle / Lf * dt;
+		  
+          state << px_pred, py_pred, psi_pred, v_pred, cte_pred, epsi_pred;
+          
+		  //
+		  //state << 0, 0, 0, v, cte, epsi;
 		  // Add everything to the state
 		  
           vector<double> mpc_res = mpc.Solve(state, coeffs);
