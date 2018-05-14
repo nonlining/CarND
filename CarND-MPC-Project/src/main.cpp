@@ -96,8 +96,6 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
-		  double steering_angle = j[1]["steering_angle"];
-          double throttle = j[1]["throttle"];
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -135,24 +133,24 @@ int main() {
 		  //The best way of handling latency is to predict the state of the car 100ms in the future 
 		  //before passing it to the solver. Its advantage over choosing a step in the future to handle 
 		  //latency is that it decouples latency management from the choice of N and dt
+          double delta = j[1]["steering_angle"];
+          double prev_a = mpc.prev_a;
+          double predicted_x = v * dt;
+          double predicted_y = 0;
+          double predicted_psi = - v * delta / Lf * latency_dt;
+          double predicted_v = v + prev_a * dt;
+          double predicted_cte = cte + v * CppAD::sin(epsi) * latency_dt;
+          double predicted_epsi = epsi + predicted_psi;
 
-          px = v * cos(psi) * latency_dt;
-          py = v * sin(psi) * latency_dt;
-          psi = v * steering_angle / Lf * latency_dt;
-          v = v + throttle * latency_dt;
-          cte = cte + v * sin(epsi) * latency_dt;
-          epsi = epsi  - v * steering_angle / Lf * latency_dt;
-
+          state << predicted_x, predicted_y, predicted_psi, predicted_v, predicted_cte, predicted_epsi;
           // Add everything to the state
-
-          state << px, py, psi, v, cte, epsi;
-
 		  
           vector<double> mpc_res = mpc.Solve(state, coeffs);
           // Divide deg2rad(25) to get range [-1, 1]
           double steer_value = mpc_res[0]/ deg2rad(25);
           double throttle_value = mpc_res[1];
 
+          mpc.prev_a = throttle_value;
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
