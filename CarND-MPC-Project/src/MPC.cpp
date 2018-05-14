@@ -9,6 +9,15 @@ using CppAD::AD;
 size_t N = 15;
 double dt = 0.1;
 
+#define W_CTE 8.4
+#define W_EPSI 0.32
+#define W_V 0.261
+#define W_DELTA 600000
+#define W_A 17.1
+#define W_DDELTA 0.01
+#define W_DA 0.00001
+
+
 // This value assumes the model presented in the classroom is used.
 //
 // It was obtained by measuring the radius formed by running the vehicle in the
@@ -46,20 +55,19 @@ class FG_eval {
 
 
     for (int i = 0; i < N; i++) {
-      fg[0] += 3000*CppAD::pow(vars[cte_start + i], 2);
-      fg[0] += 3000*CppAD::pow(vars[epsi_start + i], 2);
-      fg[0] += CppAD::pow(vars[v_start + i] - ref_v, 2);
+      fg[0] += W_CTE * CppAD::pow(vars[cte_start + i] - REF_CTE, 2);
+      fg[0] += W_EPSI * CppAD::pow(vars[epsi_start + i] - REF_EPSI, 2);
+      fg[0] += W_V * CppAD::pow(vars[v_start + i] - REF_V, 2);
     }
 
     for (int i = 0; i < N - 1; i++) {
-      fg[0] += 5*CppAD::pow(vars[delta_start + i], 2);
-      fg[0] += 5*CppAD::pow(vars[a_start + i], 2);
-      fg[0] += 700*CppAD::pow(vars[delta_start + i] * vars[v_start+i], 2);
+      fg[0] += W_DELTA * CppAD::pow(vars[delta_start + i], 2);
+      fg[0] += W_A * CppAD::pow(vars[a_start + i], 2);
     }
 
     for (int i = 0; i < N - 2; i++) {
-      fg[0] += 200*CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
-      fg[0] += 10*CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
+      fg[0] += W_DDELTA * CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+      fg[0] += W_DA * CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 
     // initialize constraints
@@ -71,37 +79,40 @@ class FG_eval {
     fg[1 + epsi_start] = vars[epsi_start];
 
     // The rest of the constraints
-    for (int i = 1; i < N; i++) {
+    for (int i = 0; i < N - 1; i++) {
       // The state at time i
-      AD<double> x1 = vars[x_start + i];
-      AD<double> y1 = vars[y_start + i];
-      AD<double> x0 = vars[x_start + i - 1];
-      AD<double> y0 = vars[y_start + i - 1];
-      AD<double> psi1 = vars[psi_start + i];
-      AD<double> psi0 = vars[psi_start + i - 1];
-      AD<double> v1 = vars[v_start + i];
-      AD<double> v0 = vars[v_start + i - 1];
-      AD<double> cte1 = vars[cte_start + i];
-      AD<double> cte0 = vars[cte_start + i - 1];
-      AD<double> epsi1 = vars[epsi_start + i];
-      AD<double> epsi0 = vars[epsi_start + i - 1];
-      AD<double> a = vars[a_start + i - 1];
-      AD<double> delta = vars[delta_start + i - 1];
-      if (i > 1) {
-        a = vars[a_start + i - 2];
-        delta = vars[delta_start + i - 2];
-      }
-      AD<double> f0 = coeffs[0] + coeffs[1] * x0 + coeffs[2] * CppAD::pow(x0, 2) + coeffs[3] * CppAD::pow(x0, 3);
-      AD<double> psides0 = CppAD::atan(coeffs[1] + 2 * coeffs[2] * x0 + 3 * coeffs[3] * CppAD::pow(x0, 2));
+      AD<double> x1 = vars[x_start + i + 1];
+      AD<double> y1 = vars[y_start + i + 1];
+      AD<double> psi1 = vars[psi_start + i + 1];
+      AD<double> v1 = vars[v_start + i + 1];
+      AD<double> cte1 = vars[cte_start + i + 1];
+      AD<double> epsi1 = vars[epsi_start + i + 1];
+      AD<double> x0 = vars[x_start + i];
+      AD<double> y0 = vars[y_start + i];
+      AD<double> psi0 = vars[psi_start + i];
+      AD<double> v0 = vars[v_start + i];
+      AD<double> cte0 = vars[cte_start + i];
+      AD<double> epsi0 = vars[epsi_start + i];
+      AD<double> delta0 = vars[delta_start + i];
+      AD<double> a0 = vars[a_start + i];
 
+      AD<double> f0 = 0.0;
+      for (int i = 0; i < coeffs.size(); i++) {
+        f0 += coeffs[i] * CppAD::pow(x0, i);
+      }
+      AD<double> psides0 = 0.0;
+      for (int i = 1; i < coeffs.size(); i++) {
+        psides0 += i*coeffs[i] * CppAD::pow(x0, i-1);
+      }
+      psides0 = CppAD::atan(psides0);
 
       // the rest of the model constraints
-      fg[1 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
-      fg[1 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
-      fg[1 + psi_start + i] = psi1 - (psi0 - v0/Lf * delta * dt);
-      fg[1 + v_start + i] = v1 - (v0 + a * dt);
-      fg[1 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
-      fg[1 + epsi_start + i] = epsi1 - ((psi0 - psides0) - v0/Lf * delta * dt);
+      fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * DT);
+      fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * DT);
+      fg[2 + psi_start + i] = psi1 - (psi0 + v0 * delta0 / LF * DT);
+      fg[2 + v_start + i] = v1 - (v0 + a0 * DT);
+      fg[2 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * DT));
+      fg[2 + epsi_start + i] = epsi1 - ((psi0 - psides0) + v0 * delta0 / LF * DT);
     }
   }
 };
@@ -144,12 +155,12 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   Dvector vars_upperbound(n_vars);
   // TODO: Set lower and upper limits for variables.
 
-  vars[x_start] = x;
-  vars[y_start] = y;
-  vars[psi_start] = psi;
-  vars[v_start] = v;
-  vars[cte_start] = cte;
-  vars[epsi_start] = epsi;
+  //vars[x_start] = x;
+  //vars[y_start] = y;
+  //vars[psi_start] = psi;
+  //vars[v_start] = v;
+  //vars[cte_start] = cte;
+  //vars[epsi_start] = epsi;
 
 
   // set all non-actuiators upper and lower bounds to max and min value
