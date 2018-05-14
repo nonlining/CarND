@@ -78,10 +78,15 @@ for instructions and the project rubric.
 
 This project took a lot of time to tune parameters of the cost function and other parameters for the MPC.
 
-The first thing, we need to know is we have 2 two actuators. One is stearing angle (δ) and another is brake represented as a singular actuator (a).
+The first thing, we need to know is we have 2 two actuators. One is stearing angle (δ) and another is brake represented as a singular actuator (a). The paramter Lf is provided by course.
 
 The following equations provide the kinematic model can predict the state on the next time step by taking into account the current state and actuators, (δ) and (a).
 
 ![alt text][image1]
+
+My choice for N and dt are 20 and 0.1, respectively. I used try-and-error method to get these parameters, since the latancy of this simulation is 0.1s. So 0.1s could be a good starting point for this.
+
+
+
 
 
