@@ -48,17 +48,16 @@ class FG_eval {
 
     for (int i = 0; i < N; i++) {
       fg[0] += 3000*pow(vars[cte_start + i], 2);
-      //fg[0] += 3000*pow(vars[epsi_start + i], 2);
 	  fg[0] += 500*pow(vars[epsi_start + i], 2);
       fg[0] += pow(vars[v_start + i] - ref_v, 2);
     }
 
     for (int i = 0; i < N - 1; i++) {
-      //fg[0] += 5*pow(vars[delta_start + i], 2);
+
 	  fg[0] += 1*pow(vars[delta_start + i], 2);
-      //fg[0] += 5*pow(vars[a_start + i], 2);
+
 	  fg[0] += 1*pow(vars[a_start + i], 2);
-      //fg[0] += 700*pow(vars[delta_start + i] * vars[v_start+i], 2);
+
     }
 
     for (int i = 0; i < N - 2; i++) {
@@ -98,9 +97,7 @@ class FG_eval {
            
       AD<double> f0 = coeffs[0] + coeffs[1] * x0 + coeffs[2] * pow(x0,2) + coeffs[3] * pow(x0,3);
       AD<double> psides0 = CppAD::atan(coeffs[1] + (2 * coeffs[2] * x0) + (3 * coeffs[3]* pow(x0,2) ));
-      
-      // Fill in fg with differences between actual and predicted states
-      // add 2 to indices because (+1) from cost and (+1) because logging error of prediction (next timestep)
+
       fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
       fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
       fg[2 + psi_start + i] = psi1 - (psi0 - v0 * delta0 / Lf * dt);
