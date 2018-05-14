@@ -4,6 +4,8 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include <cppad/cppad.hpp>
+#include <cppad/ipopt/solve.hpp>
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "MPC.h"
@@ -138,7 +140,7 @@ int main() {
           double predicted_x = v * dt;
           double predicted_y = 0;
           double predicted_psi = - v * delta / Lf * latency_dt;
-          double predicted_v = v + prev_a * dt;
+          double predicted_v = v + prev_a * latency_dt;
           double predicted_cte = cte + v * CppAD::sin(epsi) * latency_dt;
           double predicted_epsi = epsi + predicted_psi;
 
