@@ -117,7 +117,7 @@ int main() {
 			cout<<"dx "<<dx<<" dy "<<dy<<endl;
             #endif
 			points_x[i] = (dx * cos(-psi) - dy * sin(-psi));
-            points_y[i] = (dy * sin(-psi) + dy * cos(-psi));
+            points_y[i] = (dx * sin(-psi) + dy * cos(-psi));
 			#if DEBUG
 			cout<<points_x[i]<<" "<<points_y[i]<<endl;
 			#endif
@@ -126,8 +126,9 @@ int main() {
 
 
           auto coeffs = polyfit(points_x, points_y, 3);
-          double cte = coeffs[0];
+          double cte = polyeval(coeffs, 0);
           double epsi = -atan(coeffs[1]);
+		  VectorXd state(6);
 
           double latency_dt = 0.1;
 		  
@@ -143,7 +144,7 @@ int main() {
           epsi = epsi  - v * steering_angle / Lf * latency_dt;
 
           // Add everything to the state
-          VectorXd state(6);
+
           state << px, py, psi, v, cte, epsi;
 
 		  
