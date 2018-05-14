@@ -141,7 +141,7 @@ int main() {
           double px_pred = v * cos(psi) * dt;
           double py_pred = v * sin(psi) * dt;
           double psi_pred = v * steering_angle * dt/Lf;
-          double v_pred = v + a * dt;
+          double v_pred = v + throttle * dt;
           double cte_pred = cte + v * sin(epsi) * dt;
           double epsi_pred = epsi  - v * steering_angle / Lf * dt;
 		  
