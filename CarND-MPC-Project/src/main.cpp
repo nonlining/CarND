@@ -147,8 +147,8 @@ int main() {
 		  
           vector<double> mpc_res = mpc.Solve(state, coeffs);
           // Divide deg2rad(25) to get range [-1, 1]
-          steer_value = mpc_res[0]/ deg2rad(25);
-          throttle_value = mpc_res[1];
+          steering_angle = mpc_res[0]/ deg2rad(25);
+          throttle = mpc_res[1];
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
