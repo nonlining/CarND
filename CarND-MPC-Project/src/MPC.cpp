@@ -1,31 +1,3 @@
-
-Skip to content
-This repository
-
-    Pull requests
-    Issues
-    Marketplace
-    Explore
-
-    @nonlining
-
-1
-0
-
-    0
-
-nonlining/CarND
-Code
-Issues 0
-Pull requests 0
-Projects 0
-Wiki
-Insights
-Settings
-CarND/CarND-MPC-Project/src/MPC.cpp
-9f7f7c0 17 hours ago
-@nonlining nonlining update
-251 lines (207 sloc) 7.96 KB
 #include "MPC.h"
 #include <cppad/cppad.hpp>
 #include <cppad/ipopt/solve.hpp>
