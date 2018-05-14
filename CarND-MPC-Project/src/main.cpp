@@ -135,7 +135,8 @@ int main() {
 		  //The best way of handling latency is to predict the state of the car 100ms in the future 
 		  //before passing it to the solver. Its advantage over choosing a step in the future to handle 
 		  //latency is that it decouples latency management from the choice of N and dt
-          const double px_act = v * dt;
+		  
+          const double px_act = v * latency_dt;
           const double py_act = 0;
           const double psi_act = - v * steering_angle * latency_dt / Lf;
           const double v_act = v + throttle * latency_dt;
