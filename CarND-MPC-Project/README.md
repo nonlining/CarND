@@ -71,3 +71,5 @@ of CarND. If you are enrolled, see [the project page](https://classroom.udacity.
 for instructions and the project rubric.
 
 ## MPC model
+
+This project took a lot of time to tune parameters of the cost function and other parameters for the MPC. The first 
