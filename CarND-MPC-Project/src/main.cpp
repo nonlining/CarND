@@ -139,7 +139,7 @@ int main() {
           psi = v * steer_value / Lf * latency_dt;
           v = v + throttle_value * latency_dt;
           cte = cte + v * sin(epsi) * latency_dt;
-          epsi = epsi  - v * delta / Lf * latency_dt;
+          epsi = epsi  - v * steer_value / Lf * latency_dt;
 
           // Add everything to the state
           VectorXd state(6);
