@@ -5,7 +5,7 @@
 #include "Eigen-3.3/Eigen/Core"
 
 #define Lf 2.67
-#define ref_v 40
+#define ref_v 70
 #define ref_cte 0
 #define ref_epsi 0
 #define DEBUG 0
