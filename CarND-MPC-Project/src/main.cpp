@@ -4,8 +4,6 @@
 #include <iostream>
 #include <thread>
 #include <vector>
-#include <cppad/cppad.hpp>
-#include <cppad/ipopt/solve.hpp>
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "MPC.h"
@@ -98,6 +96,8 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
+		  double steering_angle = j[1]["steering_angle"];
+		  double throttle = j[1]["throttle"];
 
           /*
           * TODO: Calculate steering angle and throttle using MPC.
@@ -135,16 +135,14 @@ int main() {
 		  //The best way of handling latency is to predict the state of the car 100ms in the future 
 		  //before passing it to the solver. Its advantage over choosing a step in the future to handle 
 		  //latency is that it decouples latency management from the choice of N and dt
-          double delta = j[1]["steering_angle"];
-          double prev_a = mpc.prev_a;
-          double predicted_x = v * dt;
-          double predicted_y = 0;
-          double predicted_psi = - v * delta / Lf * latency_dt;
-          double predicted_v = v + prev_a * latency_dt;
-          double predicted_cte = cte + v * CppAD::sin(epsi) * latency_dt;
-          double predicted_epsi = epsi + predicted_psi;
+          const double px_act = v * dt;
+          const double py_act = 0;
+          const double psi_act = - v * steering_angle * latency_dt / Lf;
+          const double v_act = v + throttle * latency_dt;
+          const double cte_act = cte + v * sin(epsi) * latency_dt;
+          const double epsi_act = epsi + psi_act; 
 
-          state << predicted_x, predicted_y, predicted_psi, predicted_v, predicted_cte, predicted_epsi;
+          state << px_act, py_act, psi_act, v_act, cte_act, epsi_act;
           // Add everything to the state
 		  
           vector<double> mpc_res = mpc.Solve(state, coeffs);
@@ -152,7 +150,6 @@ int main() {
           double steer_value = mpc_res[0]/ deg2rad(25);
           double throttle_value = mpc_res[1];
 
-          mpc.prev_a = throttle_value;
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
           // Otherwise the values will be in between [-deg2rad(25), deg2rad(25] instead of [-1, 1].
