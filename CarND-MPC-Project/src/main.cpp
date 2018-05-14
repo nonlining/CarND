@@ -138,9 +138,9 @@ int main() {
 		  //step in the future to handle latency is that it decouples latency management 
 		  //from the choice of N and dt
 		  
-          double px_pred = v * cos(psi) * dt;
+          //double px_pred = v * cos(psi) * dt;
           //double py_pred = v * sin(psi) * dt;
-		  //double px_pred = v * dt;
+		  double px_pred = v * dt;
 		  double py_pred = 0;
           double psi_pred = v * (steering_angle * dt)/Lf;
           double v_pred = v + throttle * dt;
